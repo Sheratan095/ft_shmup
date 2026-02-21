@@ -3,14 +3,17 @@ NAME = ft_shmup
 CC = c++ -Ofast -g
 CC += -Wall -Wextra -Werror
 
-SRCS = src/main.cpp
+SRCS = src/main.cpp \
+	    src/screen.cpp
+
+LIBS = -lncurses
 
 VALGRIND =  valgrind --leak-check=full --track-origins=yes --track-fds=yes --show-leak-kinds=all --suppressions=valgrind.supp
 
 all: $(NAME)
 
 $(NAME): $(SRCS)
-	@$(CC) $(SRCS) -Iincludes/ -o $(NAME)
+	@$(CC) $(SRCS) $(LIBS) -Iincludes/ -o  $(NAME)
 	@echo "$(GREEN)[$(NAME)]:\t PROJECT COMPILED$(RESET)"
 
 clean:

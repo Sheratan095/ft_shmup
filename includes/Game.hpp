@@ -7,7 +7,7 @@ class Game
 {
 	private:
 		list<Player*>	_players; // [0: WASD, 1: ARROWS]
-		list<AEnemy*>	_enemies;
+		list<AEntity*>	_enemies;
 		list<Bullet*>	_enemiesBullets;
 		list<Bullet*>	_playersBullets;
 		list<Asteroid*>	_asteroids;

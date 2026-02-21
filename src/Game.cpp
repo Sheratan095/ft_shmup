@@ -20,8 +20,8 @@ Game::~Game()
 	for (Player* player : _players)
 		delete (player);
 
-	for (AEnemy* enemy : _enemies)
-		delete (enemy);
+	for (AEntity* entity : _enemies)
+		delete (entity);
 
 	for (Bullet* bullet : _enemiesBullets)
 		delete (bullet);
@@ -54,8 +54,8 @@ void	Game::showEntities(Screen& screen) const
 	for (Player* player : _players)
 		mvaddch(player->getY(), player->getX(), player->getSymbol());
 
-	for (AEnemy* enemy : _enemies)
-		mvaddch(enemy->getY(), enemy->getX(), enemy->getSymbol());
+	for (AEntity* entity : _enemies)
+		mvaddch(entity->getY(), entity->getX(), entity->getSymbol());
 
 	for (Bullet* bullet : _playersBullets)
 		mvaddch(bullet->getY(), bullet->getX(), bullet->getSymbol());
@@ -95,7 +95,16 @@ void	Game::update()
 	{
 		if (bullet->move(0, -1))
 		{
-			for (AEnemy* enemy : _enemies)
+			for (Asteroid* asteroid : _asteroids)
+			{
+				if (bullet->getX() == asteroid->getX() && bullet->getY() == asteroid->getY())
+				{
+					asteroid->takeDamage(ASTEROID_DAMAGE);
+					bullet->setHealth(0);
+					_score += POINTS_PER_MINION;
+				}
+			}
+			for (AEntity* enemy : _enemies)
 			{
 				if (bullet->getX() == enemy->getX() && bullet->getY() == enemy->getY())
 				{
@@ -117,7 +126,7 @@ void	Game::update()
 
 	for (Asteroid* asteroid : _asteroids)
 	{
-		if (!asteroid->move(0, 1))
+		if (!asteroid->move(0, 1) || asteroid->getY() >= _screenHeight - 3)
 		{
 			asteroid->setHealth(0);
 			continue;
@@ -138,14 +147,18 @@ void	Game::update()
 	cleanDeathEntities();
 }
 
-void	Game::addMinion()
+void Game::addMinion()
 {
-
+    int x = rand() % _screenWidth;
+    int y = 0; // spawn at top
+    _enemies.push_back(new Minion(x, y, 0, 0, 'M'));
 }
 
-void	Game::addBoss()
+void Game::addBoss()
 {
-
+    int x = _screenWidth / 2;
+    int y = 0;
+    _enemies.push_back(new Boss(x, y, 0, 0, 'B'));
 }
 
 void	Game::addAsteroid()
@@ -156,7 +169,7 @@ void	Game::addAsteroid()
 
 void	Game::cleanDeathEntities()
 {
-	_enemies.remove_if([](AEnemy* enemy) { if (!enemy->isAlive()) { delete enemy; return true; } return false; });
+	_enemies.remove_if([](AEntity* enemy) { if (!enemy->isAlive()) { delete enemy; return true; } return false; });
 	_enemiesBullets.remove_if([](Bullet* bullet) { if (bullet->getHealth() <= 0) { delete bullet; return true; } return false; });
 	_playersBullets.remove_if([](Bullet* bullet) { if (bullet->getHealth() <= 0) { delete bullet; return true; } return false; });
 	_asteroids.remove_if([](Asteroid* asteroid) { if (asteroid->getHealth() <= 0) { delete asteroid; return true; } return false; });

@@ -22,7 +22,7 @@ class Player : public AEntity
 		void	takeDamage(int d) { _health -= d; if (_health < 0) _health = 0; }
 		bool	isAlive() const { return _health > 0; }
 
-		Bullet*	shoot() const { return (new Bullet(_x + 1, _y)); }
+		Bullet*	shoot() const { return (new Bullet(_x , _y + 1)); }
 };
 
 #endif

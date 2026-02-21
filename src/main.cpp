@@ -22,7 +22,7 @@ int main() {
 
 	bool running = true;
     game.start();
-    //game.addEnemy(); // Start with one enemy
+    game.addMinion(); // Start with one enemy
 	while (running)
 	{
 
@@ -30,7 +30,7 @@ int main() {
         w = scr.getWidth();
         h = scr.getHeight();
 
-        if (frame_count % (CLOCKS_PER_SEC * 5) == 0) // Add enemies every half second
+        if (frame_count % (CLOCKS_PER_SEC) == 0) // Add enemies every half second
             AddEnemies(game, game.getScore(), w, h);
 
         // Update every 60th of a second
@@ -66,7 +66,7 @@ void DrawHUD(Screen& scr, const Game& game, int startTime)
 
 void AddEnemies(Game& game, int score, int screenWidth, int screenHeight)
 {
-    int difficultyLevel = 1; // Increase difficulty every 100 points
+    int difficultyLevel = score / 100; // Increase difficulty every 100 points
     // Add a new enemy every 100 points
 
     while (difficultyLevel > 0) // 10% chance to add an enemy each frame, scaled by difficulty

@@ -1,9 +1,9 @@
 #include "Game.hpp"
 #include <cmath>
 
-Game::Game(int numPlayers, int screenWidth, int playerStartY) : _screenWidth(screenWidth)
+Game::Game(int numPlayers, int playerStartY, int screenWidth, int screenHeight) : _screenWidth(screenWidth), _screenHeight(screenHeight)
 {
-	if (numPlayers < 1 || numPlayers > 2 || screenWidth < 0)
+	if (numPlayers < 1 || numPlayers > 2 || screenWidth < 0 || screenHeight < 0)
 		throw InvalidParameters();
 
 	if (numPlayers == 1)
@@ -23,10 +23,13 @@ Game::~Game()
 	for (AEnemy* enemy : _enemies)
 		delete (enemy);
 
-		for (Bullet* bullet : _bullets)
+	for (Bullet* bullet : _enemiesBullets)
 		delete (bullet);
 
-		for (Asteroid* asteroid : _asteroids)
+	for (Bullet* bullet : _playersBullets)
+			delete (bullet);
+
+	for (Asteroid* asteroid : _asteroids)
 		delete (asteroid);
 }
 
@@ -49,6 +52,41 @@ int	Game::getScore() const
 void	Game::start()
 {
 	_started = true;
+}
+
+void	Game::update()
+{
+	for (Bullet* bullet : _enemiesBullets)
+	{
+		if (bullet->move(-1, 0))
+		{
+			for (Player* player : _players)
+			{
+				if (bullet->getX() == player->getX() && bullet->getY() == player->getY())
+				{
+					player->takeDamage(1);
+					bullet->setHealth(0); // Mark bullet for deletion
+				}
+			}
+		}
+		else
+			bullet->setHealth(0); // Mark bullet for deletion
+	}
+}
+
+void	Game::addMinion()
+{
+
+}
+
+void	Game::addBoss()
+{
+
+}
+
+void	Game::addAsteroid()
+{
+
 }
 
 // Return false if the move would put the player out of bounds, true otherwise
@@ -88,7 +126,7 @@ void	Game::playerShoot(int playerId)
 
 	Bullet*	newBullet = (*it)->shoot();
 	if (newBullet)
-		_bullets.push_back(newBullet);
+		_playersBullets.push_back(newBullet);
 }
 
 const char	*Game::InvalidParameters::what() const throw()

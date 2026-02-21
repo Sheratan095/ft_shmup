@@ -8,7 +8,7 @@ class Bullet : public AEntity
 	public:
 		Bullet(int x, int y) : AEntity(x, y, 0, 0, '-') {}
 		~Bullet() {}
-
+ 
 		int		getX() const { return _x; }
 		int		getY() const { return _y; }
 		char	getSymbol() const { return _symbol; }

@@ -5,6 +5,7 @@
 #include <string>
 
 #include "AEntity.hpp"
+#include "Screen.hpp"
 #include "Bullet.hpp"
 #include "Player.hpp"
 #include <iostream>

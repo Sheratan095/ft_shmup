@@ -1,19 +1,6 @@
 #include "ft_shmup.hpp"
 
-int handle_input(Game *game)
-{
-	int	c;
 
-	c = getch();
-	switch (c)
-	{
-		case KEY_RESIZE:
-			refresh();
-			return (Default);
-		default:
-			return (Default);
-	}
-}
 
 void	init_matrix(Game *game)
 {

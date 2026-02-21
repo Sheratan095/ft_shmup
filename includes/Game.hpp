@@ -8,14 +8,17 @@ class Game
 	private:
 		list<Player*>	_players; // [0: WASD, 1: ARROWS]
 		list<AEnemy*>	_enemies;
-		list<Bullet*>	_bullets;
+		list<Bullet*>	_enemiesBullets;
+		list<Bullet*>	_playersBullets;
 		list<Asteroid*>	_asteroids;
 		int				_score = 0;
 		bool			_started = false;
 		int				_screenWidth;
+		int				_screenHeight;
+		int				_playerStartY;
 
 	public:
-		Game(int numPlayers, int screenWidth, int playerStartY);
+		Game(int numPlayers, int playerStartY, int screenWidth, int screenHeight);
 		~Game();
 
 		void	start();
@@ -24,6 +27,10 @@ class Game
 
 		int		getPlayerHealth(int playerId) const;
 		int		getScore() const;
+
+		void	addMinion();
+		void	addBoss();
+		void	addAsteroid();
 
 		bool	playerMove(int playerId, int deltaX);
 		void	playerShoot(int playerId);

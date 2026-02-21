@@ -34,7 +34,7 @@ int main() {
         {
             scr.clear();
             game.showEntities(scr);
-            //game.update();
+            game.update();
         }
 
         frame_count++;

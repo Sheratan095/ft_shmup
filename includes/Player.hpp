@@ -1,0 +1,25 @@
+#include "ft_shmup.hpp"
+
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
+
+class Player : public AEntity
+{
+	public:
+		// Main ctor: specify position, symbol and health
+		Player(int x, int y, int sx, int sy, char symbol, int health) : AEntity(x, y, sx, sy, symbol, health)
+		{}
+
+		~Player()
+		{}
+
+		int		getHealth() const { return _health; }
+		void	setHealth(int h) { _health = h; }
+
+		void	takeDamage(int d) { _health -= d; if (_health < 0) _health = 0; }
+		bool	isAlive() const { return _health > 0; }
+
+		void	move(int dx, int dy) override { _x += dx; _y += dy; }
+};
+
+#endif

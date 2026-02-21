@@ -5,6 +5,8 @@ CC += -Wall -Wextra -Werror
 
 SRCS = src/main.cpp \
 
+VALGRIND =  valgrind --leak-check=full --track-origins=yes --track-fds=yes --show-leak-kinds=all --suppressions=valgrind.supp
+
 all: $(NAME)
 
 $(NAME): $(SRCS)
@@ -25,7 +27,7 @@ test: all
 	./$(NAME)
 
 val: all
-	valgrind ./$(NAME)
+	valgrind -suppr ./$(NAME)
 
 #COLORS
 

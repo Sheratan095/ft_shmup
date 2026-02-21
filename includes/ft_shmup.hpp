@@ -4,4 +4,7 @@
 #include <iostream>
 #include <string>
 
+#include "AEntity.hpp"
+#include "Player.hpp"
+
 #endif

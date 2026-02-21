@@ -116,7 +116,7 @@ void	Game::update()
 
 	for (Asteroid* asteroid : _asteroids)
 	{
-		if (asteroid->move(1, 0))
+		if (asteroid->move(0, 1))
 		{
 			for (Player* player : _players)
 			{

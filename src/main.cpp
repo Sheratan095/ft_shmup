@@ -50,7 +50,7 @@ int main() {
 
 void AddEnemies(Game& game, int score, int screenWidth, int screenHeight)
 {
-    int difficultyLevel = score / 1000; // Increase difficulty every 100 points
+    int difficultyLevel = 1000; // Increase difficulty every 100 points
     // Add a new enemy every 100 points
 
     while (difficultyLevel > 0) // 10% chance to add an enemy each frame, scaled by difficulty

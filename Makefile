@@ -31,6 +31,7 @@ arg =
 
 test: all
 	./$(NAME)
+	reset
 
 val: all
 	valgrind -suppr ./$(NAME)

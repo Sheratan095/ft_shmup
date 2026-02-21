@@ -2,7 +2,7 @@
 
 void AddEnemies(Game& game, int score, int screenWidth, int screenHeight);
 
-void	switchInput(int ch, Game *game);
+void	switchInput(int ch, Game *game, bool *running);
 
 unsigned long long frame_count = 0;
 
@@ -38,7 +38,7 @@ int main() {
         }
 
         frame_count++;
-		switchInput(getch(), &game);
+		switchInput(getch(), &game, &running);
 	}
 
 
@@ -64,7 +64,7 @@ void AddEnemies(Game& game, int score, int screenWidth, int screenHeight)
     }
 }
 
-void	switchInput(int ch, Game *game)
+void	switchInput(int ch, Game *game, bool *running)
 {
 	switch (ch)
 	{
@@ -97,7 +97,7 @@ void	switchInput(int ch, Game *game)
 
 		case 'q':
 		case 'Q':
-			exit(0);
+            *running = false;
 			break;
 
 		default:

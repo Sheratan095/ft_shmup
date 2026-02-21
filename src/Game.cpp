@@ -146,7 +146,8 @@ void	Game::addBoss()
 
 void	Game::addAsteroid()
 {
-
+	Asteroid* newAsteroid = new Asteroid(_screenWidth - 1, rand() % _screenHeight, 0, 0, 'O');
+	_asteroids.push_back(newAsteroid);
 }
 
 void	Game::cleanDeathEntities()

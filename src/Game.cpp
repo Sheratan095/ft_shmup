@@ -71,6 +71,7 @@ void	Game::start()
 
 void	Game::update()
 {
+
 	// Move enemies's bullets downwards and check for collisions with players
 	for (Bullet* bullet : _enemiesBullets)
 	{
@@ -116,19 +117,22 @@ void	Game::update()
 
 	for (Asteroid* asteroid : _asteroids)
 	{
-		if (asteroid->move(0, 1))
+		if (!asteroid->move(0, 1))
 		{
-			for (Player* player : _players)
+			asteroid->setHealth(0);
+			continue;
+		}
+
+		// Player collision
+		for (Player* player : _players)
+		{
+			if (asteroid->getX() == player->getX() &&
+				asteroid->getY() == player->getY())
 			{
-				if (asteroid->getX() == player->getX() && asteroid->getY() == player->getY())
-				{
-					player->takeDamage(ASTEROID_DAMAGE); // Asteroids deal more damage
-					asteroid->setHealth(0); // Mark asteroid for deletion
-				}
+				player->takeDamage(ASTEROID_DAMAGE);
+				asteroid->setHealth(0);
 			}
 		}
-		else
-			asteroid->setHealth(0); // Mark asteroid for deletion
 	}
 
 	cleanDeathEntities();
@@ -146,7 +150,7 @@ void	Game::addBoss()
 
 void	Game::addAsteroid()
 {
-	Asteroid* newAsteroid = new Asteroid(_screenWidth - 1, rand() % _screenHeight, 0, 0, 'O');
+	Asteroid* newAsteroid = new Asteroid(rand() % _screenWidth, 1, 0, 0, 'O');
 	_asteroids.push_back(newAsteroid);
 }
 

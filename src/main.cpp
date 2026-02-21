@@ -1,5 +1,8 @@
 #include "ft_shmup.hpp"
 
+
+void DrawHUD(Screen& scr, const Game& game, int startTime);
+
 void AddEnemies(Game& game, int score, int screenWidth, int screenHeight);
 
 void	switchInput(int ch, Game *game, bool *running);
@@ -27,39 +30,52 @@ int main() {
         w = scr.getWidth();
         h = scr.getHeight();
 
-        AddEnemies(game, game.getScore(), w, h);
+        if (frame_count % (CLOCKS_PER_SEC * 5) == 0) // Add enemies every half second
+            AddEnemies(game, game.getScore(), w, h);
 
         // Update every 60th of a second
         if (frame_count % (CLOCKS_PER_SEC / 60) == 0)
         {
-            scr.clear();
+            scr.clear(); // DONT PUT FUNCTIONS BACK 
+            DrawHUD(scr, game, scr.getCurrentTime() / CLOCKS_PER_SEC);
             game.showEntities(scr);
-            game.update();
         }
+        if (frame_count % (CLOCKS_PER_SEC) == 0) // Update game logic every 10th of a second
+            game.update();
 
         frame_count++;
 		switchInput(getch(), &game, &running);
 	}
-
-
-    scr.end();
 	return 0;
 }
 
+void DrawHUD(Screen& scr, const Game& game, int startTime)
+{
+    int h = scr.getHeight();
+    int w = scr.getWidth();
 
+    int playerHealth = game.getPlayerHealth(0);
+
+    mvhline(h - 4, 0, '-', w);  // top border of HUD
+    mvprintw(h - 3, 2, "Score: %d", game.getScore());
+    mvprintw(h - 3, w / 3, "Health: %d", playerHealth);
+    mvprintw(h - 3, (2 * w) / 3, "Time: %ds", scr.getCurrentTime() / CLOCKS_PER_SEC);
+
+    mvprintw(h - 2, 2, "Controls: A/D Move  W Shoot  Q Quit");
+}
 
 void AddEnemies(Game& game, int score, int screenWidth, int screenHeight)
 {
-    int difficultyLevel = 1000; // Increase difficulty every 100 points
+    int difficultyLevel = 1; // Increase difficulty every 100 points
     // Add a new enemy every 100 points
 
     while (difficultyLevel > 0) // 10% chance to add an enemy each frame, scaled by difficulty
     {
         // Randomly decide to add either an AEnemy or an Asteroid
         if (rand() % (10 - difficultyLevel) == 0)
-            cout << "Adding an enemy!" << endl; // ADD ENEMY HERE
+            game.addMinion(); // ADD ENEMY HERE
         else
-            cout << "Adding an asteroid!" << endl; // ADD ASTEROID HERE
+            game.addAsteroid(); // ADD ASTEROID HERE
         difficultyLevel--;
     }
 }

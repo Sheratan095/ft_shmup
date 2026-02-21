@@ -5,9 +5,12 @@
 
 class Player : public AEntity
 {
+	private:
+		int	_id; // 0: WASD, 1: ARROWS
+
 	public:
 		// Main ctor: specify position, symbol and health
-		Player(int x, int y, int sx, int sy, char symbol) : AEntity(x, y, sx, sy, symbol, 10)
+		Player(int x, int y, int sx, int sy, int id) : AEntity(x, y, sx, sy, 'P', 10), _id(id)
 		{}
 
 		~Player()

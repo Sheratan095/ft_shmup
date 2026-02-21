@@ -10,8 +10,7 @@ class Asteroid : public AEntity
 		Asteroid(int x, int y, int sx, int sy, char symbol) : AEntity(x, y, sx, sy, symbol, 1000)
 		{}
 
-		~Asteroid()
-		{}
+		~Asteroid() {}
 
 		int		getHealth() const { return _health; }
 		void	setHealth(int h) { _health = h; }

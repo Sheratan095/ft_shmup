@@ -5,6 +5,7 @@
 #include <string>
 #include <ncurses.h>
 #include <list>
+#include <unistd.h>
 
 using namespace std;
 
@@ -17,6 +18,7 @@ using namespace std;
 #include "Boss.hpp"
 #include "Minion.hpp"
 #include "Game.hpp"
+#include "Screen.hpp"
 
 #define INVISIBLE_CURSOR 0
 #define GRID_SIZE	4

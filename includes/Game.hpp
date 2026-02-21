@@ -11,9 +11,11 @@ class Game
 		list<Bullet*>	_bullets;
 		list<Asteroid*>	_asteroids;
 		int				_score = 0;
+		bool			_started = false;
+		int				_screenWidth;
 
 	public:
-		Game(int numPlayers);
+		Game(int numPlayers, int screenWidth, int playerStartY);
 		~Game();
 
 		void	start();
@@ -21,10 +23,13 @@ class Game
 
 		int		getPlayerHealth(int playerId) const;
 		int		getScore() const;
-		int		getElapsedTime() const;
 
-		void	playerMove(int playerId, int deltaX);
+		bool	playerMove(int playerId, int deltaX);
 		void	playerShoot(int playerId);
+
+		class InvalidParameters : public std::exception { const char *what() const throw(); };
+
+		class GameNotStarted : public std::exception { const char *what() const throw(); };
 
 };
 

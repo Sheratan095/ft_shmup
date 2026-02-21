@@ -1,10 +1,13 @@
 NAME = ft_shmup
 
 CC = c++ -Ofast -g
-CC += -Wall -Wextra -Werror
+# CC += -Wall -Wextra -Werror
 
 SRCS = src/main.cpp \
-	    src/screen.cpp
+	    src/screen.cpp \
+		src/Game.cpp \
+# 		src/AEntity.cpp \
+# 		src/render.cpp \
 
 LIBS = -lncurses
 

@@ -1,59 +1,79 @@
-#include <ncurses.h>
-#include <unistd.h>
-#include "../includes/Screen.hpp"
+#include "ft_shmup.hpp"
+
+void	switchInput(int ch, Game *game);
 
 unsigned long long frame_count = 0;
 
 int main() {
-    Screen scr;
-    scr.init();
+	Screen scr;
+	scr.init();
+	int marginPlayersLine = 5;
 
-    bool running = true;
-    while (running) {
-        scr.clear();
+	Game Game(1, scr.getWidth(), scr.getHeight() - marginPlayersLine); // Start with 1 player, screen width, and player starting Y position
 
-        // Get current dimensions
-        int h = scr.getHeight();
-        int w = scr.getWidth();
+	bool running = true;
+	while (running)
+	{
+		scr.clear();
 
-        // UI Drawing logic
-        std::string msg = "Press 'q' to quit | Resize the window to test!" + std::to_string(frame_count++) \
-        + " time elapsed: " + std::to_string(scr.getCurrentTime() / CLOCKS_PER_SEC) + "s";
-        std::string size_info = "Size: " + std::to_string(w) + "x" + std::to_string(h);
+		// Get current dimensions
+		int h = scr.getHeight();
+		int w = scr.getWidth();
 
-        mvprintw(h / 2, (w - msg.length()) / 2, "%s", msg.c_str());
-        mvprintw((h / 2) + 1, (w - size_info.length()) / 2, "%s", size_info.c_str());
+		// UI Drawing logic
+		std::string msg = "Press 'q' to quit | Resize the window to test!" + std::to_string(frame_count++) \
+		+ " time elapsed: " + std::to_string(scr.getCurrentTime() / CLOCKS_PER_SEC) + "s";
+		std::string size_info = "Size: " + std::to_string(w) + "x" + std::to_string(h);
 
-        scr.refresh();
+		mvprintw(h / 2, (w - msg.length()) / 2, "%s", msg.c_str());
+		mvprintw((h / 2) + 1, (w - size_info.length()) / 2, "%s", size_info.c_str());
 
-        // Input handling
-        int ch = getch();
-        switch (ch) {
-            case 'a':
-            case 'A':
-            case 37: // Left arrow
-                // Handle left movement
-                break;
-            case 'd':
-            case 'D':
-            case 39: // Right arrow
-                // Handle right movement
-                break;
-            case 'q':
-            case 'Q':
-                running = false;
-                break;
-            case KEY_RESIZE:
-                scr.handleResize();
-                break;
-            default:
-                break;
-            
-           
-            // Display functions should be called once every 60ms to achieve ~60 FPS
-        }
-    }
+		scr.refresh();
 
-    // scr.end() is called automatically by the destructor when scr goes out of scope
-    return 0;
+		switchInput(getch(), &Game);
+	}
+
+	// scr.end() is called automatically by the destructor when scr goes out of scope
+	return 0;
+}
+
+void	switchInput(int ch, Game *game)
+{
+	switch (ch)
+	{
+		case 'a':
+		case 'A':
+			game->playerMove(0, -1);
+			break;
+
+		case 'd':
+		case 'D':
+			game->playerMove(0, 1);
+			break;
+
+		case 'w':
+		case 'W':
+			game->playerShoot(0);
+			break;
+
+		case KEY_LEFT:
+			game->playerMove(1, -1);
+			break;
+
+		case KEY_RIGHT:
+			game->playerMove(1, 1);
+			break;
+
+		case KEY_UP:
+			game->playerShoot(1);
+			break;
+
+		case 'q':
+		case 'Q':
+			exit(0);
+			break;
+
+		default:
+			break;
+	}
 }

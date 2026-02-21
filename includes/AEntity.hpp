@@ -37,9 +37,9 @@ class AEntity
 		bool	isAlive() const { return (_health > 0); }
 
 
-		virtual Bullet*	shoot() const;
+		virtual Bullet*	shoot() const { return nullptr; }
 
-		virtual void	move(int dx, int dy) { _x += dx; _y += dy; };
+		virtual bool	move(int dx, int dy) { _x += dx; _y += dy; return true; };
 };
 
 #endif

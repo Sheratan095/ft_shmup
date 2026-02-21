@@ -7,7 +7,7 @@ class Player : public AEntity
 {
 	public:
 		// Main ctor: specify position, symbol and health
-		Player(int x, int y, int sx, int sy, char symbol, int health) : AEntity(x, y, sx, sy, symbol, health)
+		Player(int x, int y, int sx, int sy, char symbol) : AEntity(x, y, sx, sy, symbol, 10)
 		{}
 
 		~Player()

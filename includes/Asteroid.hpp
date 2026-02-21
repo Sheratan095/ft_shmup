@@ -1,16 +1,16 @@
 #include "ft_shmup.hpp"
 
-#ifndef MINION_HPP
-#define MINION_HPP
+#ifndef ASTEROID_HPP
+#define ASTEROID_HPP
 
-class Minion : public AEntity
+class Asteroid : public AEntity
 {
 	public:
 		// Main ctor: specify position, symbol and health
-		Minion(int x, int y, int sx, int sy, char symbol, int health) : AEntity(x, y, sx, sy, symbol, health)
+		Asteroid(int x, int y, int sx, int sy, char symbol) : AEntity(x, y, sx, sy, symbol, 1000)
 		{}
 
-		~Minion()
+		~Asteroid()
 		{}
 
 		int		getHealth() const { return _health; }

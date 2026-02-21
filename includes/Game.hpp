@@ -23,6 +23,7 @@ class Game
 
 		void	start();
 		void	update();
+		void	cleanDeathEntities();
 
 		int		getPlayerHealth(int playerId) const;
 		int		getScore() const;

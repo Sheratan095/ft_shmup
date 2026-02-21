@@ -7,7 +7,7 @@ class Asteroid : public AEntity
 {
 	public:
 		// Main ctor: specify position, symbol and health
-		Asteroid(int x, int y, int sx, int sy, char symbol) : AEntity(x, y, sx, sy, symbol, 1000)
+		Asteroid(int x, int y, int sx, int sy, char symbol) : AEntity(x, y, sx, sy, symbol, ASTEROID_HEALTH)
 		{}
 
 		~Asteroid() {}

@@ -9,6 +9,22 @@
 
 using namespace std;
 
+#define PLAYER_HEALTH 5
+#define MINION_HEALTH 2
+#define BOSS_HEALTH 3
+#define ASTEROID_HEALTH 2
+
+#define PLAYER_DAMAGE 1
+#define BOSS_DAMAGE 3
+#define MINION_DAMAGE 1
+#define ASTEROID_DAMAGE 2
+
+#define POINTS_PER_MINION 100
+#define POINTS_PER_BOSS 500
+
+#define INVISIBLE_CURSOR 0
+#define GRID_SIZE	4
+
 #include "AEntity.hpp"
 #include "Screen.hpp"
 #include "Bullet.hpp"
@@ -20,8 +36,6 @@ using namespace std;
 #include "Game.hpp"
 #include "Screen.hpp"
 
-#define INVISIBLE_CURSOR 0
-#define GRID_SIZE	4
 
 // void	init_ncurses(Game *game);
 // void	init_matrix(Game *game);

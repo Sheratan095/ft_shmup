@@ -59,7 +59,6 @@ int Screen::getWidth() const
 {
     return _width;
 }
-    int     getHeight() const;
 
 int Screen::getHeight() const
 {

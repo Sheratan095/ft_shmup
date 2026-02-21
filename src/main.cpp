@@ -9,7 +9,7 @@ int main() {
 	scr.init();
 	int marginPlayersLine = 5;
 
-	Game Game(1, scr.getWidth(), scr.getHeight() - marginPlayersLine); // Start with 1 player, screen width, and player starting Y position
+	Game game(1, scr.getHeight() - marginPlayersLine, scr.getWidth(), scr.getHeight()); // Start with 1 player, screen height minus margin, and screen width
 
 	bool running = true;
 	while (running)
@@ -30,7 +30,7 @@ int main() {
 
 		scr.refresh();
 
-		switchInput(getch(), &Game);
+		switchInput(getch(), &game);
 	}
 
 	// scr.end() is called automatically by the destructor when scr goes out of scope

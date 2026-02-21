@@ -7,7 +7,7 @@ class AEnemy : public AEntity
 {
 	public:
 		AEnemy();
-		virtual ~AEnemy();
+		virtual ~AEnemy() = 0;
 
 	Bullet*	shoot() const { return (new Bullet(_x - 1, _y)); }
 };

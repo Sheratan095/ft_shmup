@@ -32,6 +32,7 @@ clock_t Screen::getCurrentTime()
 
 void Screen::end()
 {
+    curs_set(1);
     endwin();
 }
 
@@ -58,6 +59,7 @@ int Screen::getWidth() const
 {
     return _width;
 }
+    int     getHeight() const;
 
 int Screen::getHeight() const
 {

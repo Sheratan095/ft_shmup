@@ -1,5 +1,10 @@
+#include "ft_shmup.hpp"
+
 #ifndef AENTITY_HPP
 #define AENTITY_HPP
+
+// Forward declaration to avoid circular dependency
+class	Bullet;
 
 class AEntity
 {
@@ -18,21 +23,23 @@ class AEntity
 
 		virtual ~AEntity() {}
 
-		int		getX() const { return _x; }
-		int		getY() const { return _y; }
-		int		getSx() const { return _sx; }
-		int		getSy() const { return _sy; }
-		char	getSymbol() const { return _symbol; }
+		int		getX() const { return (_x); }
+		int		getY() const { return (_y); }
+		int		getSx() const { return (_sx); }
+		int		getSy() const { return (_sy); }
+		char	getSymbol() const { return (_symbol); }
 
-		int		getHealth() const { return _health; }
-		void	setHealth(int h) { _health = h; }
+		int		getHealth() const { return (_health); }
+		void	setHealth(int health) { _health = health; }
 
-		void	takeDamage(int d) { _health -= d; if (_health < 0) _health = 0; }
+		void	takeDamage(int damage) { _health -= damage; if (_health < 0) _health = 0; }
 
-		bool	isAlive() const { return _health > 0; }
+		bool	isAlive() const { return (_health > 0); }
 
-		
-		virtual void	move(int dx, int dy) = 0;
+
+		virtual Bullet*	shoot() const;
+
+		virtual void	move(int dx, int dy) { _x += dx; _y += dy; };
 };
 
 #endif

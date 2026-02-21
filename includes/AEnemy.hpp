@@ -8,6 +8,8 @@ class AEnemy : public AEntity
 	public:
 		AEnemy();
 		virtual ~AEnemy();
+
+	Bullet*	shoot() const { return (new Bullet(_x - 1, _y)); }	
 };
 
 #endif

@@ -3,7 +3,7 @@ NAME = ft_shmup
 CC = c++ -Ofast -g
 CC += -Wall -Wextra -Werror
 
-SRCS = src/main.cpp \
+SRCS = src/main.cpp
 
 VALGRIND =  valgrind --leak-check=full --track-origins=yes --track-fds=yes --show-leak-kinds=all --suppressions=valgrind.supp
 

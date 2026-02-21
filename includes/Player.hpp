@@ -19,7 +19,7 @@ class Player : public AEntity
 		void	takeDamage(int d) { _health -= d; if (_health < 0) _health = 0; }
 		bool	isAlive() const { return _health > 0; }
 
-		void	move(int dx, int dy) override { _x += dx; _y += dy; }
+		Bullet*	shoot() const { return (new Bullet(_x + 1, _y)); }
 };
 
 #endif

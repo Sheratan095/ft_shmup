@@ -5,6 +5,7 @@
 #include <string>
 
 #include "AEntity.hpp"
+#include "Bullet.hpp"
 #include "Player.hpp"
 
 #endif

@@ -57,7 +57,7 @@ void	Game::showEntities(Screen& screen) const
 	for (AEnemy* enemy : _enemies)
 		mvaddch(enemy->getY(), enemy->getX(), enemy->getSymbol());
 
-	for (Bullet* bullet : _bullets)
+	for (Bullet* bullet : _playersBullets)
 		mvaddch(bullet->getY(), bullet->getX(), bullet->getSymbol());
 
 	for (Asteroid* asteroid : _asteroids)

@@ -11,7 +11,11 @@ int main() {
 	scr.init();
 	int marginPlayersLine = 5;
 
-	Game game(1, scr.getWidth(), scr.getHeight() - marginPlayersLine); // Start with 1 player, screen width, and player starting Y position
+		
+    int h = scr.getHeight();
+	int w = scr.getWidth();
+
+	Game game(1, h - marginPlayersLine, w, h); // Start with 1 player, screen width, and player starting Y position
 
 	bool running = true;
     game.start();
@@ -20,8 +24,8 @@ int main() {
 	{
 
 		// Get current dimvoid AddEnemies(Game& game, int score, int screenWidth, int screenHeight)ensions
-		int h = scr.getHeight();
-		int w = scr.getWidth();
+        w = scr.getWidth();
+        h = scr.getHeight();
 
         AddEnemies(game, game.getScore(), w, h);
 
@@ -37,7 +41,8 @@ int main() {
 		switchInput(getch(), &game);
 	}
 
-	// scr.end() is called automatically by the destructor when scr goes out of scope
+
+    scr.end();
 	return 0;
 }
 

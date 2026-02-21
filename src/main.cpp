@@ -30,7 +30,7 @@ int main() {
         AddEnemies(game, game.getScore(), w, h);
 
         // Update every 60th of a second
-        if (frame_count % 60 == 0)
+        if (frame_count % (CLOCKS_PER_SEC / 60) == 0)
         {
             scr.clear();
             game.showEntities(scr);

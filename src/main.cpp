@@ -48,6 +48,9 @@ int main() {
                 break;
             default:
                 break;
+            
+           
+            // Display functions should be called once every 60ms to achieve ~60 FPS
         }
     }
 

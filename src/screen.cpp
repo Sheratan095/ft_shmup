@@ -18,10 +18,16 @@ void Screen::init()
     curs_set(0);
 
     // Gobal game timer
+    startTime = clock();
     // Enable resize events
-    nodelay(stdscr, FALSE);
+    nodelay(stdscr, TRUE);
 
     getmaxyx(stdscr, _height, _width);
+}
+
+clock_t Screen::getCurrentTime()
+{
+    return clock() - startTime;
 }
 
 void Screen::end()

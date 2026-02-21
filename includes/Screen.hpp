@@ -21,6 +21,7 @@ public:
     int     getHeight() const;
 
 private:
+    clock_t startTime;
     int     _width;
     int     _height;
 };

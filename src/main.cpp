@@ -17,7 +17,8 @@ int main() {
         int w = scr.getWidth();
 
         // UI Drawing logic
-        std::string msg = "Press 'q' to quit | Resize the window to test!";
+        std::string msg = "Press 'q' to quit | Resize the window to test!" + std::to_string(frame_count++) \
+        + " time elapsed: " + std::to_string(scr.getCurrentTime() / CLOCKS_PER_SEC) + "s";
         std::string size_info = "Size: " + std::to_string(w) + "x" + std::to_string(h);
 
         mvprintw(h / 2, (w - msg.length()) / 2, "%s", msg.c_str());

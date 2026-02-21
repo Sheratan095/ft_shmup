@@ -24,6 +24,7 @@ class Game
 		void	start();
 		void	update();
 		void    showEntities(Screen& screen) const;
+		void	cleanDeathEntities();
 
 		int		getPlayerHealth(int playerId) const;
 		int		getScore() const;

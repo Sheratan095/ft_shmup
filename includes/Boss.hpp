@@ -7,7 +7,7 @@ class Boss : public AEntity
 {
 	public:
 		// Main ctor: specify position, symbol and health
-		Boss(int x, int y, int sx, int sy, char symbol, int health) : AEntity(x, y, sx, sy, symbol, health)
+		Boss(int x, int y, int sx, int sy, char symbol) : AEntity(x, y, sx, sy, symbol, BOSS_HEALTH)
 		{}
 
 		~Boss()

@@ -7,7 +7,7 @@ class Minion : public AEntity
 {
 	public:
 		// Main ctor: specify position, symbol and health
-		Minion(int x, int y, int sx, int sy, char symbol, int health) : AEntity(x, y, sx, sy, symbol, health)
+		Minion(int x, int y, int sx, int sy, char symbol) : AEntity(x, y, sx, sy, symbol, MINION_HEALTH)
 		{}
 
 		~Minion()

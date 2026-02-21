@@ -71,6 +71,7 @@ void	Game::start()
 
 void	Game::update()
 {
+	// Move enemies's bullets downwards and check for collisions with players
 	for (Bullet* bullet : _enemiesBullets)
 	{
 		if (bullet->move(-1, 0))
@@ -79,7 +80,7 @@ void	Game::update()
 			{
 				if (bullet->getX() == player->getX() && bullet->getY() == player->getY())
 				{
-					player->takeDamage(1);
+					player->takeDamage(PLAYER_DAMAGE);
 					bullet->setHealth(0); // Mark bullet for deletion
 				}
 			}
@@ -87,6 +88,50 @@ void	Game::update()
 		else
 			bullet->setHealth(0); // Mark bullet for deletion
 	}
+
+	// Move player's bullets upwards and check for collisions with enemies and asteroids
+	for (Bullet* bullet : _playersBullets)
+	{
+		if (bullet->move(1, 0))
+		{
+			for (AEnemy* enemy : _enemies)
+			{
+				if (bullet->getX() == enemy->getX() && bullet->getY() == enemy->getY())
+				{
+					enemy->takeDamage(dynamic_cast<Minion*>(enemy) ? MINION_DAMAGE : BOSS_DAMAGE);
+					bullet->setHealth(0); // Mark bullet for deletion
+					if (!enemy->isAlive())
+					{
+						if (dynamic_cast<Minion*>(enemy))
+							_score += POINTS_PER_MINION;
+						else if (dynamic_cast<Boss*>(enemy))
+							_score += POINTS_PER_BOSS;
+					}
+				}
+			}
+		}
+		else
+			bullet->setHealth(0); // Mark bullet for deletion
+	}
+
+	for (Asteroid* asteroid : _asteroids)
+	{
+		if (asteroid->move(-1, 0))
+		{
+			for (Player* player : _players)
+			{
+				if (asteroid->getX() == player->getX() && asteroid->getY() == player->getY())
+				{
+					player->takeDamage(ASTEROID_DAMAGE); // Asteroids deal more damage
+					asteroid->setHealth(0); // Mark asteroid for deletion
+				}
+			}
+		}
+		else
+			asteroid->setHealth(0); // Mark asteroid for deletion
+	}
+
+	cleanDeathEntities();
 }
 
 void	Game::addMinion()
@@ -102,6 +147,14 @@ void	Game::addBoss()
 void	Game::addAsteroid()
 {
 
+}
+
+void	Game::cleanDeathEntities()
+{
+	_enemies.remove_if([](AEnemy* enemy) { if (!enemy->isAlive()) { delete enemy; return true; } return false; });
+	_enemiesBullets.remove_if([](Bullet* bullet) { if (bullet->getHealth() <= 0) { delete bullet; return true; } return false; });
+	_playersBullets.remove_if([](Bullet* bullet) { if (bullet->getHealth() <= 0) { delete bullet; return true; } return false; });
+	_asteroids.remove_if([](Asteroid* asteroid) { if (asteroid->getHealth() <= 0) { delete asteroid; return true; } return false; });
 }
 
 // Return false if the move would put the player out of bounds, true otherwise

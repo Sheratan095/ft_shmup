@@ -1,5 +1,7 @@
 #include "ft_shmup.hpp"
 
+void AddEnemies(Game& game, int score, int screenWidth, int screenHeight);
+
 void	switchInput(int ch, Game *game);
 
 unsigned long long frame_count = 0;
@@ -9,32 +11,52 @@ int main() {
 	scr.init();
 	int marginPlayersLine = 5;
 
-	Game Game(1, scr.getWidth(), scr.getHeight() - marginPlayersLine); // Start with 1 player, screen width, and player starting Y position
+	Game game(1, scr.getWidth(), scr.getHeight() - marginPlayersLine); // Start with 1 player, screen width, and player starting Y position
 
 	bool running = true;
+    game.start();
+    //game.addEnemy(); // Start with one enemy
 	while (running)
 	{
-		scr.clear();
 
-		// Get current dimensions
+		// Get current dimvoid AddEnemies(Game& game, int score, int screenWidth, int screenHeight)ensions
 		int h = scr.getHeight();
 		int w = scr.getWidth();
 
-		// UI Drawing logic
-		std::string msg = "Press 'q' to quit | Resize the window to test!" + std::to_string(frame_count++) \
-		+ " time elapsed: " + std::to_string(scr.getCurrentTime() / CLOCKS_PER_SEC) + "s";
-		std::string size_info = "Size: " + std::to_string(w) + "x" + std::to_string(h);
+        AddEnemies(game, game.getScore(), w, h);
 
-		mvprintw(h / 2, (w - msg.length()) / 2, "%s", msg.c_str());
-		mvprintw((h / 2) + 1, (w - size_info.length()) / 2, "%s", size_info.c_str());
+        // Update every 60th of a second
+        if (frame_count % 60 == 0)
+        {
+            scr.clear();
+            game.showEntities(scr);
+            //game.update();
+        }
 
-		scr.refresh();
-
-		switchInput(getch(), &Game);
+        frame_count++;
+		switchInput(getch(), &game);
 	}
 
 	// scr.end() is called automatically by the destructor when scr goes out of scope
 	return 0;
+}
+
+
+
+void AddEnemies(Game& game, int score, int screenWidth, int screenHeight)
+{
+    int difficultyLevel = score / 1000; // Increase difficulty every 100 points
+    // Add a new enemy every 100 points
+
+    while (difficultyLevel > 0) // 10% chance to add an enemy each frame, scaled by difficulty
+    {
+        // Randomly decide to add either an AEnemy or an Asteroid
+        if (rand() % (10 - difficultyLevel) == 0)
+            cout << "Adding an enemy!" << endl; // ADD ENEMY HERE
+        else
+            cout << "Adding an asteroid!" << endl; // ADD ASTEROID HERE
+        difficultyLevel--;
+    }
 }
 
 void	switchInput(int ch, Game *game)

@@ -46,6 +46,21 @@ int	Game::getScore() const
 	return (_score);
 }
 
+void	Game::showEntities(Screen& screen) const
+{
+	for (Player* player : _players)
+		mvaddch(player->getY(), player->getX(), player->getSymbol());
+
+	for (AEnemy* enemy : _enemies)
+		mvaddch(enemy->getY(), enemy->getX(), enemy->getSymbol());
+
+	for (Bullet* bullet : _bullets)
+		mvaddch(bullet->getY(), bullet->getX(), bullet->getSymbol());
+
+	for (Asteroid* asteroid : _asteroids)
+		mvaddch(asteroid->getY(), asteroid->getX(), asteroid->getSymbol());
+}
+
 void	Game::start()
 {
 	_started = true;

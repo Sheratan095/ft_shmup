@@ -20,6 +20,7 @@ class Game
 
 		void	start();
 		void	update();
+		void    showEntities(Screen& screen) const;
 
 		int		getPlayerHealth(int playerId) const;
 		int		getScore() const;

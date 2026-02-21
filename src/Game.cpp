@@ -74,7 +74,7 @@ void	Game::update()
 	// Move enemies's bullets downwards and check for collisions with players
 	for (Bullet* bullet : _enemiesBullets)
 	{
-		if (bullet->move(+1, 0))
+		if (bullet->move(0, 1))
 		{
 			for (Player* player : _players)
 			{
@@ -92,7 +92,7 @@ void	Game::update()
 	// Move player's bullets upwards and check for collisions with enemies and asteroids
 	for (Bullet* bullet : _playersBullets)
 	{
-		if (bullet->move(-1, 0))
+		if (bullet->move(0, -1))
 		{
 			for (AEnemy* enemy : _enemies)
 			{
@@ -116,7 +116,7 @@ void	Game::update()
 
 	for (Asteroid* asteroid : _asteroids)
 	{
-		if (asteroid->move(1, 0))
+		if (asteroid->move(0, 1))
 		{
 			for (Player* player : _players)
 			{

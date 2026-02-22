@@ -38,7 +38,7 @@ Game::~Game()
 int	Game::getPlayerHealth(int playerId) const
 {
 	if (playerId < 0 || playerId >= static_cast<int>(_players.size()))
-		throw InvalidParameters();
+		return 0;
 
 	auto	it = _players.begin();
 	std::advance(it, playerId);
@@ -61,18 +61,19 @@ void	Game::setWidth(int newW)
 	_screenWidth = newW;
 }
 
-int	Game::getScore() const
+int		Game::getScore() const
 {
 	return (_score);
 }
 
-void	Game::showEntities(Screen& screen) const
+void	Game::showEntities() const
 {
 	for (Star* star : _props)
 		star->render(stdscr);
 
 	for (Player* player : _players)
-		player->render(stdscr);
+		if (player->isAlive())
+			player->render(stdscr);
 
 	for (AEnemy* entity : _enemies)
 		entity->render(stdscr);
@@ -225,7 +226,15 @@ void	Game::update()
 				_enemiesBullets.push_back(newBullet);
 		}
 		if (Boss* boss = dynamic_cast<Boss*>(enemy))
+		{
 			bossBehavior(boss);
+			// Check the boss collision with players after moving
+			for (Player* player : _players)
+			{
+				if (boss->checkCollision(*player))
+					player->takeDamage(BOSS_DAMAGE);
+			}
+		}
 	}
 
 	cleanDeathEntities();
@@ -275,7 +284,7 @@ void	Game::cleanDeathEntities()
 }
 
 // Return false if the move would put the player out of bounds, true otherwise
-bool Game::playerMove(int playerId, int deltaX)
+bool	Game::playerMove(int playerId, int deltaX)
 {
     if (playerId < 0)
         throw InvalidParameters();
@@ -290,6 +299,8 @@ bool Game::playerMove(int playerId, int deltaX)
     std::advance(it, playerId);
 
     Player* player = *it;
+	if (!player->isAlive())
+		return false;
 
     int newX = player->getX() + deltaX;
     int width = PLAYER_WIDTH;
@@ -308,11 +319,14 @@ void	Game::playerShoot(int playerId)
 	if (playerId >= static_cast<int>(_players.size()))
 		return ;
 
-		if (!_started)
+	if (!_started)
 		throw GameNotStarted();
 
 	auto	it = _players.begin();
 	std::advance(it, playerId);
+
+	if (!(*it)->isAlive())
+		return;
 
 	Bullet*	newBullet = (*it)->shoot();
 	if (newBullet)
@@ -329,14 +343,14 @@ bool	Game::isGameOver() const
 	return (true);
 }
 
-int	Game::getEnemyCount() const
+int		Game::getEnemyCount() const
 {
 	return (_enemies.size());
 }
 
 void	Game::bossBehavior(Boss *enemy)
 {
-	if (rand() % 100 < 1) // Move the boss towards the nearest player 1% of the time
+	if (rand() % 100 < 90) // Move the boss towards the nearest player 2% of the time
 		return;
 
 	// Find the nearest living player
@@ -365,16 +379,24 @@ void	Game::bossBehavior(Boss *enemy)
 		int moveX = 0;
 		int moveY = 0;
 
-		// Calculate direction (move 1 unit per frame)
-		if (nearestPlayer->getX() > enemy->getX())
-			moveX = 1;
-		else if (nearestPlayer->getX() < enemy->getX())
-			moveX = -1;
+		int dx = abs(nearestPlayer->getX() - enemy->getX());
+		int dy = abs(nearestPlayer->getY() - enemy->getY());
 
-		if (nearestPlayer->getY() > enemy->getY())
-			moveY = 1;
-		else if (nearestPlayer->getY() < enemy->getY())
-			moveY = -1;
+		// If horizontal distance is greater, move horizontally; otherwise move vertically
+		if (dx > dy)
+		{
+			if (nearestPlayer->getX() > enemy->getX())
+				moveX = 1;
+			else if (nearestPlayer->getX() < enemy->getX())
+				moveX = -1;
+		}
+		else
+		{
+			if (nearestPlayer->getY() > enemy->getY())
+				moveY = 1;
+			else if (nearestPlayer->getY() < enemy->getY())
+				moveY = -1;
+		}
 
 		enemy->move(moveX, moveY);
 	}

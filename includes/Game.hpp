@@ -16,7 +16,6 @@ class Game
 		bool			_started = false;
 		int				_screenWidth;
 		int				_screenHeight;
-		int				_playerStartY;
 
 	public:
 		Game(int numPlayers, int playerStartY, int screenWidth, int screenHeight);
@@ -27,7 +26,7 @@ class Game
 		void	update();
 		void	renderBackground();
 		bool	isGameOver() const;
-		void    showEntities(Screen& screen) const;
+		void    showEntities() const;
 		void	cleanDeathEntities();
 		bool    isRunning() const;
 

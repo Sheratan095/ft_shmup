@@ -267,7 +267,7 @@ void	Game::addMinion()
 
 void	Game::addBoss()
 {
-	int x = 1 + rand() % (_screenWidth - 2);
+	int x = 1 + rand() % (_screenWidth - 2 - BOSS_WIDTH);
 	int y = 2;
 	_enemies.push_back(new Boss(x, y, BOSS_WIDTH, 1));
 }

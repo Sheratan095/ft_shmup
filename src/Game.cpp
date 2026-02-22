@@ -71,7 +71,6 @@ void	Game::start()
 
 void	Game::update()
 {
-
 	// Move enemies's bullets downwards and check for collisions with players
 	for (Bullet* bullet : _enemiesBullets)
 	{

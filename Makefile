@@ -29,7 +29,7 @@ re: fclean all
 
 arg =
 
-test: all
+test: re
 	./$(NAME)
 	reset
 

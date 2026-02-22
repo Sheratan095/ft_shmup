@@ -151,19 +151,19 @@ void Game::addMinion()
 {
     int x = rand() % _screenWidth;
     int y = 0; // spawn at top
-    _enemies.push_back(new Minion(x, y, 0, 0, 'M'));
+    _enemies.push_back(new Minion(x, y, 0, 0));
 }
 
 void Game::addBoss()
 {
     int x = _screenWidth / 2;
     int y = 0;
-    _enemies.push_back(new Boss(x, y, 0, 0, 'B'));
+    _enemies.push_back(new Boss(x, y, 0, 0));
 }
 
 void	Game::addAsteroid()
 {
-	Asteroid* newAsteroid = new Asteroid(rand() % _screenWidth, 1, 0, 0, 'O');
+	Asteroid* newAsteroid = new Asteroid(rand() % _screenWidth, 1, 0, 0);
 	_asteroids.push_back(newAsteroid);
 }
 

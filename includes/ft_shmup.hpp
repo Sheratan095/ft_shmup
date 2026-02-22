@@ -9,6 +9,12 @@
 
 using namespace std;
 
+#define PLAYER_SYMBOL 'P'
+#define MINION_SYMBOL 'M'
+#define BOSS_SYMBOL 'B'
+#define ASTEROID_SYMBOL 'A'
+#define BULLET_SYMBOL '!'
+
 #define PLAYER_HEALTH 5
 #define MINION_HEALTH 2
 #define BOSS_HEALTH 3

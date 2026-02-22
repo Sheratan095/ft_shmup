@@ -7,9 +7,9 @@ class AEnemy : public AEntity
 {
 	public:
 		AEnemy();
-		AEnemy(int x, int y, int sx, int sy, char symbol, int health) : AEntity(x, y, sx, sy, symbol, health)
+		AEnemy(int x, int y, int sx, int sy, char symbol, int health, int colorPair) : AEntity(x, y, sx, sy, symbol, health, colorPair)
 		{}
-		virtual ~AEnemy() = 0;
+		virtual ~AEnemy() {}
 };
 
 #endif

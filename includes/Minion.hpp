@@ -3,12 +3,12 @@
 #ifndef MINION_HPP
 #define MINION_HPP
 
-class Minion : public AEntity
+class Minion : public AEnemy
 {
 	public:
 		// Main ctor: specify position, symbol and health
 		Minion(int x, int y, int sx, int sy)
-			: AEntity(x, y, sx, sy, MINION_SYMBOL, MINION_HEALTH, MINION_COLOR_PAIR)
+			: AEnemy(x, y, sx, sy, MINION_SYMBOL, MINION_HEALTH, MINION_COLOR_PAIR)
 		{}
 
 		~Minion()

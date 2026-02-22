@@ -3,12 +3,12 @@
 #ifndef BOSS_HPP
 #define BOSS_HPP
 
-class Boss : public AEntity
+class Boss : public AEnemy
 {
 	public:
 		// Main ctor: specify position, symbol and health
 		Boss(int x, int y, int sx, int sy)
-			: AEntity(x, y, sx, sy, BOSS_SYMBOL, BOSS_HEALTH, BOSS_COLOR_PAIR)
+			: AEnemy(x, y, sx, sy, BOSS_SYMBOL, BOSS_HEALTH, BOSS_COLOR_PAIR)
 		{}
 
 		~Boss()

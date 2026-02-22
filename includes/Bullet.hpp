@@ -6,7 +6,8 @@
 class Bullet : public AEntity
 {
 	public:
-		Bullet(int x, int y) : AEntity(x, y, 0, 0, BULLET_SYMBOL, 1) {}
+		Bullet(int x, int y, int colorPair)
+			: AEntity(x, y, 0, 0, BULLET_SYMBOL, 1, colorPair) {}
 		~Bullet() {}
  
 		int		getX() const { return _x; }

@@ -15,10 +15,11 @@ class AEntity
 		int		_sy = 0;
 		char	_symbol;
 		int		_health = -1;
+		int		_colorPair = 0;
 
 	public:
-		AEntity(int x, int y, int sx, int sy, char symbol, int health = -1)
-			: _x(x), _sx(sx), _y(y), _sy(sy), _symbol(symbol), _health(health)
+		AEntity(int x, int y, int sx, int sy, char symbol, int health = -1, int colorPair = 0)
+			: _x(x), _sx(sx), _y(y), _sy(sy), _symbol(symbol), _health(health), _colorPair(colorPair)
 		{}
 
 		virtual ~AEntity() {}
@@ -35,6 +36,13 @@ class AEntity
 		void	takeDamage(int damage) { _health -= damage; if (_health < 0) _health = 0; }
 
 		bool	isAlive() const { return (_health > 0); }
+
+		void	render(WINDOW* win) const
+		{
+			wattron(win, COLOR_PAIR(_colorPair));
+			mvwaddch(win, getY(), getX(), getSymbol());
+			wattroff(win, A_NORMAL);
+		}
 
 
 		virtual Bullet*	shoot() const { return nullptr; }

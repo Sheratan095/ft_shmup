@@ -19,6 +19,7 @@ public:
 
     int     getWidth() const;
     int     getHeight() const;
+    int     initColors();
 
 private:
     clock_t startTime;

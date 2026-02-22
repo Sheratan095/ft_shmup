@@ -51,17 +51,22 @@ int main() {
 
 void DrawHUD(Screen& scr, const Game& game, int startTime)
 {
+	
     int h = scr.getHeight();
     int w = scr.getWidth();
 
     int playerHealth = game.getPlayerHealth(0);
 
+	wattron(stdscr, COLOR_PAIR(UHD_COLOR_PAIR));
+
     mvhline(h - 4, 0, '-', w);  // top border of HUD
     mvprintw(h - 3, 2, "Score: %d", game.getScore());
     mvprintw(h - 3, w / 3, "Health: %d", playerHealth);
-    mvprintw(h - 3, (2 * w) / 3, "Time: %ds", scr.getCurrentTime() / CLOCKS_PER_SEC);
+	mvprintw(h - 3, (2 * w) / 3, "Time: %lds", (long)(scr.getCurrentTime() / CLOCKS_PER_SEC));
 
     mvprintw(h - 2, 2, "Controls: A/D Move  W Shoot  Q Quit");
+
+	wattroff(stdscr, A_NORMAL);
 }
 
 void AddEnemies(Game& game, int score, int screenWidth, int screenHeight)

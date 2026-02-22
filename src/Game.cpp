@@ -52,16 +52,16 @@ int	Game::getScore() const
 void	Game::showEntities(Screen& screen) const
 {
 	for (Player* player : _players)
-		mvaddch(player->getY(), player->getX(), player->getSymbol());
+		player->render(stdscr);
 
 	for (AEntity* entity : _enemies)
-		mvaddch(entity->getY(), entity->getX(), entity->getSymbol());
+		entity->render(stdscr);
 
 	for (Bullet* bullet : _playersBullets)
-		mvaddch(bullet->getY(), bullet->getX(), bullet->getSymbol());
+		bullet->render(stdscr);
 
 	for (Asteroid* asteroid : _asteroids)
-		mvaddch(asteroid->getY(), asteroid->getX(), asteroid->getSymbol());
+		asteroid->render(stdscr);
 }
 
 void	Game::start()

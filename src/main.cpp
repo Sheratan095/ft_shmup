@@ -101,7 +101,14 @@ void DrawHUD(Screen& scr, Game& game, long startTime, int playerCount, int endle
 	mvprintw(h - 2, w - 20, "MODE: %s", (endless == 1 ? "Endless" : "Story"));
 
 	// controls row
-	mvprintw(h - 2, 2, "Controls: A/D Move  W Shoot  Q Quit");
+	if (playerCount > 1)
+	{
+		mvprintw(h - 2, 2, "P1: A/D Move  W Shoot | P2: Left/Right Move  Up Shoot | Q Quit");
+	}
+	else
+	{
+		mvprintw(h - 2, 2, "Controls: A/D Move  W Shoot | Q Quit");
+	}
 
 	wattr_off(stdscr, COLOR_PAIR(UHD_COLOR_PAIR), 0);
 }

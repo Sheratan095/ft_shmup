@@ -63,9 +63,6 @@ int ShowMenu(Screen& scr, int* endless)
     {
         mvprintw(h / 2 - 4, (w - (int)strlen(title)) / 2, "%s", title);
 
-        mvprintw(h / 2 - 2, (w - 20) / 2,
-                 "Mode: %s", (*endless == 1 ? "Endless" : "Story"));
-
         mvprintw(h / 2 - 1, (w - 15) / 2, "Select Players");
 
         for (int i = 0; i < playerCount; ++i)

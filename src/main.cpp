@@ -44,7 +44,7 @@ int main() {
             game.showEntities();
 			scr.refresh();
         }
-		if (frame_count % (CLOCKS_PER_SEC * 3) == 0) // Handle input every 10th of a second
+		if (frame_count % (CLOCKS_PER_SEC / 3) == 0) // Handle input every 10th of a second
 			game.addStar(); // Add new stars to the background every 3rd of a second
         if (frame_count % (CLOCKS_PER_SEC / 10) == 0)
             game.update(); // Update game state every 10th of a second

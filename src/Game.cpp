@@ -90,7 +90,11 @@ void	Game::showEntities() const
 
 void	Game::addStar()
 {
+	const char *starSymbols[] = { ".", "+", "*"};
+
 	Star* newStar = new Star(rand() % (_screenWidth - 2) + 1, 1, 0, 0);
+	newStar->setSymbol(starSymbols[rand() % 3]);
+	
 	_props.push_back(newStar);
 }
 
@@ -109,9 +113,10 @@ void	Game::update()
 	// Update stars position and remove those that go off-screen
 	for (Star* star : _props)
 	{
-		if (!star->move(0, 1) || star->getY() >= _screenHeight - 4)
+		if (rand() % 10 < 7) // 20% chance to twinkle (change symbol) each frame
 		{
-			star->setHealth(0); // Mark star for deletion
+			if (!star->move(0, 1) || star->getY() >= _screenHeight - 4)
+				star->setHealth(0); // Mark star for deletion
 		}
 	}
 

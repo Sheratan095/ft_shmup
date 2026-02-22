@@ -2,7 +2,7 @@
 
 
 void DrawHUD(Screen& scr, Game& game, long startTime, int playerCount, int endless);
-bool storyMode(Game& game, int score);
+bool storyMode(Game& game, int score, int playerCount);
 void AddEnemies(Game& game, int score);
 
 void	switchInput(int ch, Game *game, Screen& scr);
@@ -36,7 +36,7 @@ int main() {
 			if (endless == 1) // Only add enemies in endless mode
 				AddEnemies(game, game.getScore());
 			{
-				if (storyMode(game, game.getScore()) == false)
+				if (storyMode(game, game.getScore(), players) == false)
 				{
 					game.stop(); // Stop the game if story mode returns false (game over)
 				}
@@ -178,14 +178,14 @@ void switchInput(int ch, Game *game, Screen& scr)
 }
 
 // true when the game is still running, false when it's over
-bool storyMode(Game& game, int score)
+bool storyMode(Game& game, int score, int playerCount)
 {
 	int maxWave = 3;
 	static int currentWave = 0;
 	static bool inWave = false;
 
-	int minionToSpawn = 3 + currentWave * 2; // Increase enemies per wave
-	int bossToSpawn = 1 + currentWave; // Spawn a boss every 2 waves
+	int minionToSpawn = (3 + currentWave * 2) * playerCount; // Increase enemies per wave
+	int bossToSpawn = ((1 + currentWave) * 2) * playerCount; // Spawn a boss every 2 waves
 
 	// Quando non ci sono nemici => nuova wave
 	if (game.getEnemyCount() == 0)
@@ -202,7 +202,6 @@ bool storyMode(Game& game, int score)
 			return false; // Game over, player wins
 
 		// Avvia una nuova wave
-		int minionToSpawn = 3 + currentWave * 2;
 		for (int i = 0; i < minionToSpawn; ++i)
 			game.addMinion();
 

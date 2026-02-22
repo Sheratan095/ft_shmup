@@ -46,6 +46,8 @@ class Game
 		bool	playerMove(int playerId, int deltaX);
 		void	playerShoot(int playerId);
 
+		void	bossBehavior(Boss *enemy);
+
 		class InvalidParameters : public std::exception { const char *what() const throw(); };
 
 		class GameNotStarted : public std::exception { const char *what() const throw(); };

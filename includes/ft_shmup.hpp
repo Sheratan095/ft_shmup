@@ -7,6 +7,8 @@
 #include <string.h>
 #include <list>
 #include <unistd.h>
+#include <cmath>
+#include <limits>
 
 using namespace std;
 

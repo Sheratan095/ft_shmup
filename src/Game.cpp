@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include <cmath>
 
 Game::Game(int numPlayers, int playerStartY, int screenWidth, int screenHeight) : _screenWidth(screenWidth), _screenHeight(screenHeight)
 {
@@ -226,6 +225,8 @@ void	Game::update()
 			if (newBullet)
 				_enemiesBullets.push_back(newBullet);
 		}
+		if (Boss* boss = dynamic_cast<Boss*>(enemy))
+			bossBehavior(boss);
 	}
 
 	cleanDeathEntities();
@@ -244,14 +245,14 @@ void	Game::renderBackground()
 	}
 }
 
-void Game::addMinion()
+void	Game::addMinion()
 {
 	int x = 1 + rand() % (_screenWidth - 2);
 	int y = 2; // spawn at top
 	_enemies.push_back(new Minion(x, y, 0, 0));
 }
 
-void Game::addBoss()
+void	Game::addBoss()
 {
 	int x = 1 + rand() % (_screenWidth - 2);
 	int y = 2;
@@ -327,6 +328,52 @@ bool	Game::isGameOver() const
 int	Game::getEnemyCount() const
 {
 	return (_enemies.size());
+}
+
+void	Game::bossBehavior(Boss *enemy)
+{
+	if (rand() % 100 < 1) // Move the boss towards the nearest player 1% of the time
+		return;
+
+	// Find the nearest living player
+	Player* nearestPlayer = nullptr;
+	double minDistance = std::numeric_limits<double>::max();
+
+	for (Player* player : _players)
+	{
+		if (!player->isAlive())
+			continue;
+
+		double dx = player->getX() - enemy->getX();
+		double dy = player->getY() - enemy->getY();
+		double distance = dx * dx + dy * dy; // squared distance (no need for sqrt for comparison)
+
+		if (distance < minDistance)
+		{
+			minDistance = distance;
+			nearestPlayer = player;
+		}
+	}
+
+	// Move towards the nearest player
+	if (nearestPlayer)
+	{
+		int moveX = 0;
+		int moveY = 0;
+
+		// Calculate direction (move 1 unit per frame)
+		if (nearestPlayer->getX() > enemy->getX())
+			moveX = 1;
+		else if (nearestPlayer->getX() < enemy->getX())
+			moveX = -1;
+
+		if (nearestPlayer->getY() > enemy->getY())
+			moveY = 1;
+		else if (nearestPlayer->getY() < enemy->getY())
+			moveY = -1;
+
+		enemy->move(moveX, moveY);
+	}
 }
 
 const char	*Game::InvalidParameters::what() const throw()

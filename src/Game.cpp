@@ -38,7 +38,7 @@ Game::~Game()
 int	Game::getPlayerHealth(int playerId) const
 {
 	if (playerId < 0 || playerId >= static_cast<int>(_players.size()))
-		throw InvalidParameters();
+		return 0;
 
 	auto	it = _players.begin();
 	std::advance(it, playerId);
@@ -72,7 +72,8 @@ void	Game::showEntities(Screen& screen) const
 		star->render(stdscr);
 
 	for (Player* player : _players)
-		player->render(stdscr);
+		if (player->isAlive())
+			player->render(stdscr);
 
 	for (AEnemy* entity : _enemies)
 		entity->render(stdscr);
@@ -291,6 +292,8 @@ bool	Game::playerMove(int playerId, int deltaX)
     std::advance(it, playerId);
 
     Player* player = *it;
+	if (!player->isAlive())
+		return false;
 
     int newX = player->getX() + deltaX;
     int width = PLAYER_WIDTH;
@@ -309,11 +312,14 @@ void	Game::playerShoot(int playerId)
 	if (playerId >= static_cast<int>(_players.size()))
 		return ;
 
-		if (!_started)
+	if (!_started)
 		throw GameNotStarted();
 
 	auto	it = _players.begin();
 	std::advance(it, playerId);
+
+	if (!(*it)->isAlive())
+		return;
 
 	Bullet*	newBullet = (*it)->shoot();
 	if (newBullet)

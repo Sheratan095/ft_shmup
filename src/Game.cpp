@@ -66,7 +66,7 @@ int		Game::getScore() const
 	return (_score);
 }
 
-void	Game::showEntities(Screen& screen) const
+void	Game::showEntities() const
 {
 	for (Star* star : _props)
 		star->render(stdscr);

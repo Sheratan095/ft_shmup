@@ -7,7 +7,7 @@ class AEnemy : public AEntity
 {
 	public:
 		AEnemy();
-		AEnemy(int x, int y, int width, int height, char *symbol, int health, int colorPair)
+		AEnemy(int x, int y, int width, int height, const char *symbol, int health, int colorPair)
 			: AEntity(x, y, width, height, symbol, health, colorPair)
 		{}
 		virtual ~AEnemy() {}

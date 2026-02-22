@@ -3,7 +3,7 @@
 
 void DrawHUD(Screen& scr, Game& game, long startTime, int playerCount);
 
-void AddEnemies(Game& game, int score, int screenWidth, int screenHeight);
+void AddEnemies(Game& game, int score);
 
 void	switchInput(int ch, Game *game);
 
@@ -34,13 +34,13 @@ int main() {
         h = scr.getHeight();
 
         if (frame_count % (CLOCKS_PER_SEC * 10) == 0) 
-            AddEnemies(game, game.getScore(), w, h);
+            AddEnemies(game, game.getScore());
         // Update every 60th of a second
         if (frame_count % (CLOCKS_PER_SEC / 6) == 0)
         {
 			scr.clear(); // DONT PUT FUNCTIONS BACK 
             DrawHUD(scr, game, scr.getCurrentTime() / CLOCKS_PER_SEC, players);
-            game.showEntities(scr);
+            game.showEntities();
 			scr.refresh();
         }
 		if (frame_count % (CLOCKS_PER_SEC * 3) == 0) // Handle input every 10th of a second
@@ -95,7 +95,7 @@ void DrawHUD(Screen& scr, Game& game, long startTime, int playerCount)
     wattr_off(stdscr, COLOR_PAIR(UHD_COLOR_PAIR), 0);
 }
 
-void AddEnemies(Game& game, int score, int screenWidth, int screenHeight)
+void AddEnemies(Game& game, int score)
 {
     int difficultyLevel = score / 100; // Increase difficulty every 100 points
     // Add a new enemy every 100 points

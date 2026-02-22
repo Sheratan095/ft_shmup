@@ -5,12 +5,9 @@
 
 class Player : public AEntity
 {
-	private:
-		int	_id; // 0: WASD, 1: ARROWS
-
 	public:
 		// Main ctor: specify position, symbol and health
-		Player(int x, int y, int width, int height, int id) : AEntity(x, y, width, height, "-(^)-", PLAYER_HEALTH), _id(id)
+		Player(int x, int y, int width, int height, int id) : AEntity(x, y, width, height, "-(^)-", PLAYER_HEALTH)
 		{
 			if (id == 0)
 				_colorPair = PLAYER1_COLOR_PAIR;

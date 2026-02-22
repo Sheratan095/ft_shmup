@@ -175,22 +175,24 @@ void switchInput(int ch, Game *game, Screen& scr)
 
 void storyMode(Game& game, int score)
 {
+	static bool inWave = false;
+
 	int enemiesToSpawn = 3;
 
 	// Quando non ci sono nemici => nuova wave
 	if (game.getEnemyCount() == 0)
 	{
+		if (inWave)
+		{
+			game.addBoss();
+			inWave = false;
+			return;
+		}
+
 		enemiesToSpawn = 3; // nuova wave
 		for (int i = 0; i < enemiesToSpawn; ++i)
 			game.addMinion();
 
+		inWave = true;
 	}
-
-	// if (enemiesToSpawn > 0)
-	// {
-	// 	game.addMinion();
-	// 	enemiesToSpawn--;
-	// }
-
-	
 }

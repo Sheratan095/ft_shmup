@@ -114,15 +114,17 @@ void	Game::update()
 	{
 		if (bullet->move(0, -1))
 		{
+			// Check bullets collision with asteroids first
 			for (Asteroid* asteroid : _asteroids)
 			{
 				if (bullet->getX() == asteroid->getX() && bullet->getY() == asteroid->getY())
 				{
-					asteroid->takeDamage(ASTEROID_DAMAGE);
+					asteroid->takeDamage(PLAYER_DAMAGE);
 					bullet->setHealth(0);
-					_score += POINTS_PER_MINION;
+					_score += POINTS_PER_ASTEROID;
 				}
 			}
+			// Then check collision with enemies
 			for (AEnemy* enemy : _enemies)
 			{
 				if (bullet->getX() == enemy->getX() && bullet->getY() == enemy->getY())
@@ -143,6 +145,7 @@ void	Game::update()
 			bullet->setHealth(0); // Mark bullet for deletion
 	}
 
+	// Move asteroids downwards and check for collisions with players
 	for (Asteroid* asteroid : _asteroids)
 	{
 		if (!asteroid->move(0, 1) || asteroid->getY() >= _screenHeight - 3)
@@ -164,6 +167,9 @@ void	Game::update()
 	}
 
 	cleanDeathEntities();
+
+	if (isGameOver())
+		stop();
 }
 
 void Game::addMinion()
@@ -196,9 +202,9 @@ void	Game::addAsteroid()
 void	Game::cleanDeathEntities()
 {
 	_enemies.remove_if([](AEntity* enemy) { if (!enemy->isAlive()) { delete enemy; return true; } return false; });
-	_enemiesBullets.remove_if([](Bullet* bullet) { if (bullet->getHealth() <= 0) { delete bullet; return true; } return false; });
-	_playersBullets.remove_if([](Bullet* bullet) { if (bullet->getHealth() <= 0) { delete bullet; return true; } return false; });
-	_asteroids.remove_if([](Asteroid* asteroid) { if (asteroid->getHealth() <= 0) { delete asteroid; return true; } return false; });
+	_enemiesBullets.remove_if([](Bullet* bullet) { if (!bullet->isAlive()) { delete bullet; return true; } return false; });
+	_playersBullets.remove_if([](Bullet* bullet) { if (!bullet->isAlive()) { delete bullet; return true; } return false; });
+	_asteroids.remove_if([](Asteroid* asteroid) { if (!asteroid->isAlive()) { delete asteroid; return true; } return false; });
 }
 
 // Return false if the move would put the player out of bounds, true otherwise
@@ -239,6 +245,16 @@ void	Game::playerShoot(int playerId)
 	Bullet*	newBullet = (*it)->shoot();
 	if (newBullet)
 		_playersBullets.push_back(newBullet);
+}
+
+bool	Game::isGameOver() const
+{
+	for (Player* player : _players)
+	{
+		if (player->isAlive())
+			return (false);
+	}
+	return (true);
 }
 
 const char	*Game::InvalidParameters::what() const throw()

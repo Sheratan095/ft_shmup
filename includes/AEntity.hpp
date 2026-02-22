@@ -33,7 +33,7 @@ class AEntity
 		int		getHealth() const { return (_health); }
 		void	setHealth(int health) { _health = health; }
 
-		void	takeDamage(int damage) { _health -= damage; if (_health < 0) _health = 0; }
+		bool	takeDamage(int damage) { _health -= damage; if (_health < 0) _health = 0; return (isAlive()); }
 
 		bool	isAlive() const { return (_health > 0); }
 

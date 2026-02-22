@@ -16,9 +16,6 @@ class Asteroid : public AEntity
 		int		getHealth() const { return _health; }
 		void	setHealth(int h) { _health = h; }
 
-		void	takeDamage(int d) { _health -= d; if (_health < 0) _health = 0; }
-		bool	isAlive() const { return _health > 0; }
-
 };
 
 #endif

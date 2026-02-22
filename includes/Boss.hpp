@@ -17,9 +17,6 @@ class Boss : public AEnemy
 		int		getHealth() const { return _health; }
 		void	setHealth(int h) { _health = h; }
 
-		void	takeDamage(int d) { _health -= d; if (_health < 0) _health = 0; }
-		bool	isAlive() const { return _health > 0; }
-
 		Bullet*	shoot() const { return (new Bullet(_x + 1, _y, BOSS_BULLET_COLOR_PAIR)); }
 };
 

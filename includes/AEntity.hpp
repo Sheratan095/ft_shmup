@@ -11,14 +11,14 @@ class AEntity
 	protected:
 		int		_x;
 		int		_y;
-		char	_symbol;
+		char	*_symbol;
 		int		_health = -1;
 		int		_colorPair = 0;
 		int		_width = 1;
 		int		_height = 1;
 
 	public:
-		AEntity(int x, int y, int width, int height, char symbol, int health = -1, int colorPair = 0)
+		AEntity(int x, int y, int width, int height, char *symbol, int health = -1, int colorPair = 0)
 			: _x(x), _y(y),  _width(width), _height(height), _symbol(symbol), _health(health), _colorPair(colorPair)
 		{}
 
@@ -28,7 +28,7 @@ class AEntity
 		int		getY() const { return (_y); }
 		int		getSpriteW() const { return (_width); }
 		int		getSpriteH() const { return (_height); }
-		char	getSymbol() const { return (_symbol); }
+		char	*getSymbol() const { return _symbol; }
 
 		int		getHealth() const { return (_health); }
 		void	setHealth(int health) { _health = health; }
@@ -48,7 +48,7 @@ class AEntity
 		void	render(WINDOW* win) const
 		{
 			wattron(win, COLOR_PAIR(_colorPair));
-			mvwaddch(win, getY(), getX(), getSymbol());
+			mvwprintw(win, getY(), getX(), "%s", getSymbol());
 			wattroff(win, A_NORMAL);
 		}
 

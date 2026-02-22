@@ -8,7 +8,7 @@ class Star : public AEntity
 	public:
 		// Main ctor: specify position, symbol and health
 		Star(int x, int y, int sx, int sy)
-			: AEntity(x, y, sx, sy, STAR_SYMBOL, PROP_HEALTH, STAR_COLOR_PAIR)
+			: AEntity(x, y, sx, sy, "star", PROP_HEALTH, STAR_COLOR_PAIR)
 		{}
 
 		~Star() {}

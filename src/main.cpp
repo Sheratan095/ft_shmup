@@ -77,7 +77,8 @@ void AddEnemies(Game& game, int score, int screenWidth, int screenHeight)
     while (difficultyLevel > 0) // 10% chance to add an enemy each frame, scaled by difficulty
     {
         // Randomly decide to add either an AEnemy or an Asteroid
-        if (rand() % (10 - difficultyLevel) == 0)
+        int divisor = std::max(1, 10 - difficultyLevel); // Ensure divisor is never 0
+        if (rand() % divisor == 0)
             game.addMinion(); // ADD ENEMY HERE
         else
             game.addAsteroid(); // ADD ASTEROID HERE

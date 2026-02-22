@@ -20,7 +20,7 @@ Game::~Game()
 	for (Player* player : _players)
 		delete (player);
 
-	for (AEntity* entity : _enemies)
+	for (AEnemy* entity : _enemies)
 		delete (entity);
 
 	for (Bullet* bullet : _enemiesBullets)
@@ -54,7 +54,7 @@ void	Game::showEntities(Screen& screen) const
 	for (Player* player : _players)
 		player->render(stdscr);
 
-	for (AEntity* entity : _enemies)
+	for (AEnemy* entity : _enemies)
 		entity->render(stdscr);
 
 	for (Bullet* bullet : _playersBullets)
@@ -104,7 +104,7 @@ void	Game::update()
 					_score += POINTS_PER_MINION;
 				}
 			}
-			for (AEntity* enemy : _enemies)
+			for (AEnemy* enemy : _enemies)
 			{
 				if (bullet->getX() == enemy->getX() && bullet->getY() == enemy->getY())
 				{
@@ -149,16 +149,23 @@ void	Game::update()
 
 void Game::addMinion()
 {
-    int x = rand() % _screenWidth;
-    int y = 0; // spawn at top
-    _enemies.push_back(new Minion(x, y, 0, 0));
+	try
+	{
+		int x = rand() % _screenWidth;
+		int y = 0; // spawn at top
+		_enemies.push_back(new Minion(x, y, 0, 0));
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << "Error adding minion: " << e.what() << std::endl;
+	}
 }
 
 void Game::addBoss()
 {
-    int x = _screenWidth / 2;
-    int y = 0;
-    _enemies.push_back(new Boss(x, y, 0, 0));
+	int x = _screenWidth / 2;
+	int y = 0;
+	_enemies.push_back(new Boss(x, y, 0, 0));
 }
 
 void	Game::addAsteroid()

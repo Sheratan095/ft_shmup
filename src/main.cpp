@@ -1,7 +1,7 @@
 #include "ft_shmup.hpp"
 
 
-void DrawHUD(Screen& scr, Game& game, long startTime);
+void DrawHUD(Screen& scr, Game& game, long startTime, int playerCount);
 
 void AddEnemies(Game& game, int score, int screenWidth, int screenHeight);
 
@@ -39,7 +39,7 @@ int main() {
         if (frame_count % (CLOCKS_PER_SEC / 6) == 0)
         {
 			scr.clear(); // DONT PUT FUNCTIONS BACK 
-            DrawHUD(scr, game, scr.getCurrentTime() / CLOCKS_PER_SEC);
+            DrawHUD(scr, game, scr.getCurrentTime() / CLOCKS_PER_SEC, players);
             game.showEntities(scr);
 			scr.refresh();
         }
@@ -54,24 +54,45 @@ int main() {
 	return 0;
 }
 
-void DrawHUD(Screen& scr, Game& game, long startTime)
+void DrawHUD(Screen& scr, Game& game, long startTime, int playerCount)
 {
     int h = scr.getHeight();
     int w = scr.getWidth();
 
+    // background color for HUD area
+    wattron(stdscr, COLOR_PAIR(UHD_COLOR_PAIR));
 
-    int playerHealth = game.getPlayerHealth(0);
+    // separator line above HUD
+    mvhline(h - 5, 0, ' ', w); // clear the row just above HUD
+    mvhline(h - 4, 0, '-', w);
 
-	wattron(stdscr, COLOR_PAIR(UHD_COLOR_PAIR));
-    mvhline(h - 4, 1, '-', w);  // top border of HUD
-	box(stdscr, 0, 0); // Draw border around the screen
-	mvprintw(h - 3, 2, "|"); // left border of HUD
-    mvprintw(h - 3, 2, "Score: %d", game.getScore());
-    mvprintw(h - 3, w / 3, "Health: %d", playerHealth);
-	mvprintw(h - 3, (2 * w) / 3, "Time: %lds ", startTime);
+    // clear HUD rows before drawing (in case text from previous frame lingers)
+    for (int row = h - 3; row < h; ++row)
+        mvhline(row, 0, ' ', w);
 
+    // primary stats line
+    int col = 2;
+    mvprintw(h - 3, col, "Score: %d", game.getScore());
+    col += 15;
+
+    if (playerCount > 1)
+    {
+        mvprintw(h - 3, col, "P1 HP: %d", game.getPlayerHealth(0));
+        col += 15;
+        mvprintw(h - 3, col, "P2 HP: %d", game.getPlayerHealth(1));
+    }
+    else
+    {
+        mvprintw(h - 3, col, "HP: %d", game.getPlayerHealth(0));
+    }
+
+    // time on right side
+    mvprintw(h - 3, w - 20, "Time: %lds", startTime);
+
+    // controls row
     mvprintw(h - 2, 2, "Controls: A/D Move  W Shoot  Q Quit");
-	wattroff(stdscr, A_NORMAL);
+
+    wattr_off(stdscr, COLOR_PAIR(UHD_COLOR_PAIR), 0);
 }
 
 void AddEnemies(Game& game, int score, int screenWidth, int screenHeight)

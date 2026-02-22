@@ -54,6 +54,9 @@ int	Game::getScore() const
 
 void	Game::showEntities(Screen& screen) const
 {
+	for (Star* star : _props)
+		star->render(stdscr);
+
 	for (Player* player : _players)
 		player->render(stdscr);
 
@@ -72,12 +75,8 @@ void	Game::showEntities(Screen& screen) const
 
 void	Game::addStar()
 {
-	// generate new stars
-	if (rand() % 10 < 8) // 20% chance to generate a new star each frame
-	{
-		int x = rand() % _screenWidth;
-		_props.push_back(new Star(x, 1, 0, 0));
-	}
+	Star* newStar = new Star(rand() % _screenWidth, 1, 0, 0);
+	_props.push_back(newStar);
 }
 
 void	Game::start()
@@ -87,12 +86,13 @@ void	Game::start()
 
 void	Game::update()
 {
+	// Update stars position and remove those that go off-screen
 	for (Star* star : _props)
 	{
-		star->move(0, 1);
-		star->render(stdscr);
-		if (star->getY() >= _screenHeight - 3)
+		if (!star->move(0, 1) || star->getY() >= _screenHeight - 4)
+		{
 			star->setHealth(0); // Mark star for deletion
+		}
 	}
 
 	// Move enemies's bullets downwards and check for collisions with players
@@ -194,6 +194,16 @@ void	Game::update()
 
 	if (isGameOver())
 		stop();
+}
+
+void	Game::renderBackground()
+{
+	// Move stars downwards and remove those that go off-screen
+	for (Star* star : _props)
+	{
+		if (!star->move(0, 1) || star->getY() >= _screenHeight - 3)
+			star->setHealth(0); // Mark star for deletion
+	}
 }
 
 void Game::addMinion()

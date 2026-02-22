@@ -1,7 +1,7 @@
 #include "ft_shmup.hpp"
 
 
-void DrawHUD(Screen& scr, const Game& game, int startTime);
+void DrawHUD(Screen& scr, Game& game, int startTime);
 
 void AddEnemies(Game& game, int score, int screenWidth, int screenHeight);
 
@@ -40,6 +40,8 @@ int main() {
         }
         if (frame_count % (CLOCKS_PER_SEC) == 0) // Update game logic every 10th of a second
             game.update();
+		if (frame_count % (CLOCKS_PER_SEC * 3) == 0) // Handle input every 10th of a second
+			game.addStar(); // Add new stars to the background every 3rd of a second
 
         frame_count++;
 		switchInput(getch(), &game);
@@ -47,9 +49,8 @@ int main() {
 	return 0;
 }
 
-void DrawHUD(Screen& scr, const Game& game, int startTime)
+void DrawHUD(Screen& scr, Game& game, int startTime)
 {
-	
     int h = scr.getHeight();
     int w = scr.getWidth();
 

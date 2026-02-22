@@ -8,7 +8,7 @@ class Boss : public AEnemy
 	public:
 		// Main ctor: specify position, symbol and health
 		Boss(int x, int y, int width, int height)
-			: AEnemy(x, y, width, height, "boss", BOSS_HEALTH, BOSS_COLOR_PAIR)
+			: AEnemy(x, y, width, height, "=__V__=", BOSS_HEALTH, BOSS_COLOR_PAIR)
 		{}
 
 		~Boss()
@@ -17,7 +17,7 @@ class Boss : public AEnemy
 		int		getHealth() const { return _health; }
 		void	setHealth(int h) { _health = h; }
 
-		Bullet*	shoot() const { return (new Bullet(_x, _y + 1, BOSS_BULLET_SYMBOL, BOSS_BULLET_COLOR_PAIR)); }
+		Bullet*	shoot() const { return (new Bullet(_x + _width / 2, _y + 1, "a", BOSS_BULLET_COLOR_PAIR)); }
 };
 
 #endif

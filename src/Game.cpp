@@ -7,11 +7,11 @@ Game::Game(int numPlayers, int playerStartY, int screenWidth, int screenHeight) 
 		throw InvalidParameters();
 
 	if (numPlayers == 1)
-		_players.push_back(new Player(screenWidth / 2, playerStartY, 1, 0, 0));
+		_players.push_back(new Player(screenWidth / 2, playerStartY, PLAYER_WIDTH, 1, 0));
 	else
 	{
-		_players.push_back(new Player(screenWidth / 3, playerStartY, 1, 0, 0));
-		_players.push_back(new Player(2 * (screenWidth / 3), playerStartY, 1, 0, 1));
+		_players.push_back(new Player(screenWidth / 3, playerStartY, PLAYER_WIDTH, 1, 0));
+		_players.push_back(new Player(2 * (screenWidth / 3), playerStartY, PLAYER_WIDTH, 1, 1));
 	}
 }
 
@@ -125,7 +125,7 @@ void	Game::update()
 
 			for (Player* player : _players)
 			{
-				if (bullet->getX() == player->getX() && bullet->getY() == player->getY())
+				if (bullet->checkCollision(*player))
 				{
 					player->takeDamage(bullet->getSymbol() == MINION_BULLET_SYMBOL ? MINION_DAMAGE : BOSS_DAMAGE);
 					bullet->setHealth(0); // Mark bullet for deletion
@@ -136,7 +136,7 @@ void	Game::update()
 
 			for (Bullet *playerBullet : _playersBullets)
 			{
-				if (bullet->getX() == playerBullet->getX() && bullet->getY() == playerBullet->getY())
+				if (bullet->checkCollision(*playerBullet))
 				{
 					bullet->setHealth(0); // Mark enemy bullet for deletion
 					playerBullet->setHealth(0); // Mark player bullet for deletion
@@ -158,7 +158,7 @@ void	Game::update()
 			// Check bullets collision with asteroids first
 			for (Asteroid* asteroid : _asteroids)
 			{
-				if (bullet->getX() == asteroid->getX() && bullet->getY() == asteroid->getY())
+				if (bullet->checkCollision(*asteroid))
 				{
 					asteroid->takeDamage(PLAYER_DAMAGE);
 					bullet->setHealth(0);
@@ -169,7 +169,7 @@ void	Game::update()
 			// Then check collision with enemies
 			for (AEnemy* enemy : _enemies)
 			{
-				if (bullet->getX() == enemy->getX() && bullet->getY() == enemy->getY())
+				if (bullet->checkCollision(*enemy))
 				{
 					enemy->takeDamage(dynamic_cast<Minion*>(enemy) ? MINION_DAMAGE : BOSS_DAMAGE);
 					bullet->setHealth(0); // Mark bullet for deletion
@@ -185,7 +185,7 @@ void	Game::update()
 
 			for (Bullet *enemyBullet : _enemiesBullets)
 			{
-				if (bullet->getX() == enemyBullet->getX() && bullet->getY() == enemyBullet->getY())
+				if (bullet->checkCollision(*enemyBullet))
 				{
 					bullet->setHealth(0); // Mark player bullet for deletion
 					enemyBullet->setHealth(0); // Mark enemy bullet for deletion
@@ -208,8 +208,7 @@ void	Game::update()
 		// Player collision
 		for (Player* player : _players)
 		{
-			if (asteroid->getX() == player->getX() &&
-				asteroid->getY() == player->getY())
+			if (asteroid->checkCollision(*player))
 			{
 				player->takeDamage(ASTEROID_DAMAGE);
 				asteroid->setHealth(0);
@@ -248,20 +247,20 @@ void Game::addMinion()
 {
 	int x = 1 + rand() % (_screenWidth - 2);
 	int y = 2; // spawn at top
-	_enemies.push_back(new Minion(x, y, 0, 0));
+	_enemies.push_back(new Minion(x, y, PLAYER_WIDTH, 1));
 }
 
 void Game::addBoss()
 {
 	int x = 1 + rand() % (_screenWidth - 2);
 	int y = 2;
-	_enemies.push_back(new Boss(x, y, 0, 0));
+	_enemies.push_back(new Boss(x, y, BOSS_WIDTH, 1));
 }
 
 void	Game::addAsteroid()
 {
 	int ax = 1 + rand() % (_screenWidth - 2);
-	Asteroid* newAsteroid = new Asteroid(ax, 1, 0, 0);
+	Asteroid* newAsteroid = new Asteroid(ax, 1, 1, 1);
 	_asteroids.push_back(newAsteroid);
 }
 

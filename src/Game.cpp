@@ -226,7 +226,15 @@ void	Game::update()
 				_enemiesBullets.push_back(newBullet);
 		}
 		if (Boss* boss = dynamic_cast<Boss*>(enemy))
+		{
 			bossBehavior(boss);
+			// Check the boss collision with players after moving
+			for (Player* player : _players)
+			{
+				if (boss->checkCollision(*player))
+					player->takeDamage(BOSS_DAMAGE);
+			}
+		}
 	}
 
 	cleanDeathEntities();

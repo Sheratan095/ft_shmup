@@ -7,6 +7,8 @@
 #include <string.h>
 #include <list>
 #include <unistd.h>
+#include <cmath>
+#include <limits>
 
 using namespace std;
 
@@ -18,11 +20,11 @@ using namespace std;
 #define MINION_BULLET_SYMBOL '+'
 
 #define UHD_COLOR_PAIR 8
-#define PLAYER_COLOR_PAIR 1
+#define PLAYER1_COLOR_PAIR 1
+#define PLAYER2_COLOR_PAIR 4
 #define MINION_COLOR_PAIR 2
 #define BOSS_COLOR_PAIR 3
 #define ASTEROID_COLOR_PAIR 4
-#define PLAYER_BULLET_COLOR_PAIR 5
 #define BOSS_BULLET_COLOR_PAIR 3
 #define MINION_BULLET_COLOR_PAIR 2
 #define STAR_COLOR_PAIR 6

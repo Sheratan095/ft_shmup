@@ -87,6 +87,15 @@ void	Game::update()
 					bullet->setHealth(0); // Mark bullet for deletion
 				}
 			}
+
+			for (Bullet *playerBullet : _playersBullets)
+			{
+				if (bullet->getX() == playerBullet->getX() && bullet->getY() == playerBullet->getY())
+				{
+					bullet->setHealth(0); // Mark enemy bullet for deletion
+					playerBullet->setHealth(0); // Mark player bullet for deletion
+				}
+			}
 		}
 		else
 			bullet->setHealth(0); // Mark bullet for deletion

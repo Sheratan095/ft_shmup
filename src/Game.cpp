@@ -124,7 +124,7 @@ void	Game::update()
 			{
 				if (bullet->getX() == player->getX() && bullet->getY() == player->getY())
 				{
-					player->takeDamage(PLAYER_DAMAGE);
+					player->takeDamage(dynamic_cast<Minion*>(bullet) ? MINION_DAMAGE : BOSS_DAMAGE);
 					bullet->setHealth(0); // Mark bullet for deletion
 				}
 			}

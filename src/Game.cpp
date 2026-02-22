@@ -93,7 +93,6 @@ void	Game::addStar()
 	const char *starSymbols[] = { ".", "+", "*"};
 
 	Star* newStar = new Star(rand() % (_screenWidth - 2) + 1, 1, 0, 0);
-	newStar->setSymbol(starSymbols[rand() % 3]);
 	
 	_props.push_back(newStar);
 }
@@ -108,18 +107,18 @@ void	Game::stop()
 	_started = false;
 }
 
-void	Game::update()
+void    Game::updateStars()
 {
 	// Update stars position and remove those that go off-screen
 	for (Star* star : _props)
 	{
-		if (rand() % 10 < 7) // 20% chance to twinkle (change symbol) each frame
-		{
-			if (!star->move(0, 1) || star->getY() >= _screenHeight - 4)
-				star->setHealth(0); // Mark star for deletion
-		}
+		if (!star->move(0, star->getSpeed()) || star->getY() >= _screenHeight - 4)
+			star->setHealth(0); // Mark star for deletion
 	}
+}
 
+void	Game::update()
+{
 	// Move enemies's bullets downwards and check for collisions with players
 	for (Bullet* bullet : _enemiesBullets)
 	{
@@ -267,7 +266,7 @@ void	Game::addMinion()
 
 void	Game::addBoss()
 {
-	int x = 1 + rand() % (_screenWidth - 2);
+	int x = 1 + rand() % (_screenWidth - 2 - BOSS_WIDTH);
 	int y = 2;
 	_enemies.push_back(new Boss(x, y, BOSS_WIDTH, 1));
 }

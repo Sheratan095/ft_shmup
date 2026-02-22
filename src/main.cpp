@@ -52,10 +52,12 @@ int main() {
 		}
 		if (frame_count % (CLOCKS_PER_SEC * 5) == 0)
 			game.addAsteroid(); // Add new asteroids every 5 seconds
-		if (frame_count % (CLOCKS_PER_SEC / 3) == 0) // Handle input every 10th of a second
+		if (frame_count % (CLOCKS_PER_SEC / 2) == 0) // Handle input every 10th of a second
 			game.addStar(); // Add new stars to the background every 3rd of a second
-		if (frame_count % (CLOCKS_PER_SEC / 5) == 0)
+		if (frame_count % (CLOCKS_PER_SEC / 3) == 0)
 			game.update(); // Update game state every 10th of a second
+        if (frame_count % (CLOCKS_PER_SEC) == 0)
+            game.updateStars(); // Update stars every 60th of a second
 
 		frame_count++;
 		switchInput(getch(), &game, scr);

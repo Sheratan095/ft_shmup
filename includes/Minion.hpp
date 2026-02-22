@@ -8,7 +8,7 @@ class Minion : public AEnemy
 	public:
 		// Main ctor: specify position, symbol and health
 		Minion(int x, int y, int width, int height)
-			: AEnemy(x, y, width, height, "{_._}", MINION_HEALTH, MINION_COLOR_PAIR)
+			: AEnemy(x, y, width, height, "-=µ=-", MINION_HEALTH, MINION_COLOR_PAIR)
 		{}
 
 		~Minion()

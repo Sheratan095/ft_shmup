@@ -27,7 +27,7 @@ using namespace std;
 #define ASTEROID_COLOR_PAIR 4
 #define BOSS_BULLET_COLOR_PAIR 3
 #define MINION_BULLET_COLOR_PAIR 2
-#define STAR_COLOR_PAIR 5
+#define STAR_COLOR_PAIR 6
 #define RESET_PAIR 0
 
 #define PLAYER_HEALTH 50

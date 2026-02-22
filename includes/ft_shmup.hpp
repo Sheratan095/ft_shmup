@@ -30,7 +30,7 @@ using namespace std;
 #define STAR_COLOR_PAIR 6
 #define RESET_PAIR 0
 
-#define PLAYER_HEALTH 5
+#define PLAYER_HEALTH 20
 #define MINION_HEALTH 2
 #define BOSS_HEALTH 3
 

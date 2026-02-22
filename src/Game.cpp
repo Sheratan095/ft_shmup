@@ -61,7 +61,7 @@ void	Game::setWidth(int newW)
 	_screenWidth = newW;
 }
 
-int	Game::getScore() const
+int		Game::getScore() const
 {
 	return (_score);
 }
@@ -224,8 +224,8 @@ void	Game::update()
 			if (newBullet)
 				_enemiesBullets.push_back(newBullet);
 		}
-		if (Boss* boss = dynamic_cast<Boss*>(enemy))
-			bossBehavior(boss);
+		// if (Boss* boss = dynamic_cast<Boss*>(enemy))
+		// 	bossBehavior(boss);
 	}
 
 	cleanDeathEntities();
@@ -246,8 +246,9 @@ void	Game::renderBackground()
 
 void	Game::addMinion()
 {
+	// limit y spawn from y 2 to y 10
 	int x = 1 + rand() % (_screenWidth - 2);
-	int y = 2; // spawn at top
+	int y = 2 + rand() % 9; // spawn y between 2 and 10 inclusive
 	_enemies.push_back(new Minion(x, y, PLAYER_WIDTH, 1));
 }
 
@@ -275,7 +276,7 @@ void	Game::cleanDeathEntities()
 }
 
 // Return false if the move would put the player out of bounds, true otherwise
-bool Game::playerMove(int playerId, int deltaX)
+bool	Game::playerMove(int playerId, int deltaX)
 {
     if (playerId < 0)
         throw InvalidParameters();
@@ -329,7 +330,7 @@ bool	Game::isGameOver() const
 	return (true);
 }
 
-int	Game::getEnemyCount() const
+int		Game::getEnemyCount() const
 {
 	return (_enemies.size());
 }

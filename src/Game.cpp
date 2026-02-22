@@ -31,6 +31,9 @@ Game::~Game()
 
 	for (Asteroid* asteroid : _asteroids)
 		delete (asteroid);
+
+	for (Star* star : _props)
+		delete (star);
 }
 
 int	Game::getPlayerHealth(int playerId) const
@@ -67,6 +70,16 @@ void	Game::showEntities(Screen& screen) const
 		asteroid->render(stdscr);
 }
 
+void	Game::addStar()
+{
+	// generate new stars
+	if (rand() % 10 < 8) // 20% chance to generate a new star each frame
+	{
+		int x = rand() % _screenWidth;
+		_props.push_back(new Star(x, 1, 0, 0));
+	}
+}
+
 void	Game::start()
 {
 	_started = true;
@@ -74,6 +87,14 @@ void	Game::start()
 
 void	Game::update()
 {
+	for (Star* star : _props)
+	{
+		star->move(0, 1);
+		star->render(stdscr);
+		if (star->getY() >= _screenHeight - 3)
+			star->setHealth(0); // Mark star for deletion
+	}
+
 	// Move enemies's bullets downwards and check for collisions with players
 	for (Bullet* bullet : _enemiesBullets)
 	{
@@ -208,6 +229,7 @@ void	Game::cleanDeathEntities()
 	_enemiesBullets.remove_if([](Bullet* bullet) { if (!bullet->isAlive()) { delete bullet; return true; } return false; });
 	_playersBullets.remove_if([](Bullet* bullet) { if (!bullet->isAlive()) { delete bullet; return true; } return false; });
 	_asteroids.remove_if([](Asteroid* asteroid) { if (!asteroid->isAlive()) { delete asteroid; return true; } return false; });
+	_props.remove_if([](Star* star) { if (!star->isAlive()) { delete star; return true; } return false; });
 }
 
 // Return false if the move would put the player out of bounds, true otherwise

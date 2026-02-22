@@ -15,6 +15,7 @@ using namespace std;
 #define ASTEROID_SYMBOL 'A'
 #define BULLET_SYMBOL '!'
 #define ENEMY_BULLET_SYMBOL '*'
+#define STAR_SYMBOL '.'
 
 #define UHD_COLOR_PAIR 8
 #define PLAYER_COLOR_PAIR 1
@@ -24,13 +25,14 @@ using namespace std;
 #define PLAYER_BULLET_COLOR_PAIR 5
 #define BOSS_BULLET_COLOR_PAIR 3
 #define MINION_BULLET_COLOR_PAIR 2
+#define STAR_COLOR_PAIR 6
 #define RESET_PAIR 0
 
 #define PLAYER_HEALTH 5
 #define MINION_HEALTH 2
 #define BOSS_HEALTH 3
 #define ASTEROID_HEALTH 1
-
+#define PROP_HEALTH 1
 #define PLAYER_DAMAGE 1
 #define BOSS_DAMAGE 3
 #define MINION_DAMAGE 1
@@ -51,13 +53,8 @@ using namespace std;
 #include "Asteroid.hpp"
 #include "Boss.hpp"
 #include "Minion.hpp"
+#include "Star.hpp"
 #include "Game.hpp"
 #include "Screen.hpp"
-
-
-// void	init_ncurses(Game *game);
-// void	init_matrix(Game *game);
-// void	draw_grid(Game *game);
-// int     handle_input(Game *game);
 
 #endif

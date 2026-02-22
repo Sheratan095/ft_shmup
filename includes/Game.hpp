@@ -11,6 +11,7 @@ class Game
 		list<Bullet*>	_enemiesBullets;
 		list<Bullet*>	_playersBullets;
 		list<Asteroid*>	_asteroids;
+		list<Star*>		_props;
 		int				_score = 0;
 		bool			_started = false;
 		int				_screenWidth;
@@ -35,6 +36,7 @@ class Game
 		void	addMinion();
 		void	addBoss();
 		void	addAsteroid();
+		void	addStar();
 
 		bool	playerMove(int playerId, int deltaX);
 		void	playerShoot(int playerId);

@@ -44,6 +44,21 @@ int	Game::getPlayerHealth(int playerId) const
 	return (*it)->getHealth();
 }
 
+bool    Game::isRunning() const
+{
+	return (_started);
+}
+
+void	Game::setHeight(int newH)
+{
+	_screenHeight = newH;
+}
+
+void	Game::setWidth(int newW)
+{
+	_screenWidth = newW;
+}
+
 int	Game::getScore() const
 {
 	return (_score);
@@ -62,6 +77,11 @@ void	Game::showEntities(Screen& screen) const
 
 	for (Asteroid* asteroid : _asteroids)
 		asteroid->render(stdscr);
+}
+
+void	Game::stop()
+{
+	_started = false;
 }
 
 void	Game::start()

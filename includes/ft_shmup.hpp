@@ -13,8 +13,9 @@ using namespace std;
 #define MINION_SYMBOL 'M'
 #define BOSS_SYMBOL 'B'
 #define ASTEROID_SYMBOL 'A'
-#define BULLET_SYMBOL '!'
-#define ENEMY_BULLET_SYMBOL '*'
+#define PLAYER_BULLET_SYMBOL '!'
+#define BOSS_BULLET_SYMBOL '*'
+#define MINION_BULLET_SYMBOL '+'
 #define STAR_SYMBOL '.'
 
 #define UHD_COLOR_PAIR 8
@@ -31,6 +32,7 @@ using namespace std;
 #define PLAYER_HEALTH 5
 #define MINION_HEALTH 2
 #define BOSS_HEALTH 3
+
 #define ASTEROID_HEALTH 1
 #define PROP_HEALTH 1
 #define PLAYER_DAMAGE 1

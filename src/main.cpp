@@ -115,7 +115,7 @@ void switchInput(int ch, Game *game)
         case KEY_RIGHT:
             game->playerMove(1, 1);
             break;
-        case KEY_UP:	sleep(100000);
+        case KEY_UP:
             game->playerShoot(1);
             break;
 

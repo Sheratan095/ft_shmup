@@ -90,7 +90,7 @@ void	Game::showEntities(Screen& screen) const
 
 void	Game::addStar()
 {
-	Star* newStar = new Star(rand() % _screenWidth, 1, 0, 0);
+	Star* newStar = new Star(rand() % (_screenWidth - 2) + 1, 1, 0, 0);
 	_props.push_back(newStar);
 }
 
@@ -127,7 +127,7 @@ void	Game::update()
 			{
 				if (bullet->getX() == player->getX() && bullet->getY() == player->getY())
 				{
-					player->takeDamage(dynamic_cast<Minion*>(bullet) ? MINION_DAMAGE : BOSS_DAMAGE);
+					player->takeDamage(bullet->getSymbol() == MINION_BULLET_SYMBOL ? MINION_DAMAGE : BOSS_DAMAGE);
 					bullet->setHealth(0); // Mark bullet for deletion
 				}
 				if (bullet->getY() >= _screenHeight - 3)
@@ -165,6 +165,7 @@ void	Game::update()
 					_score += POINTS_PER_ASTEROID;
 				}
 			}
+
 			// Then check collision with enemies
 			for (AEnemy* enemy : _enemies)
 			{
@@ -219,7 +220,7 @@ void	Game::update()
 	// Enemies shooting
 	for (AEnemy* enemy : _enemies)
 	{
-		if (rand() % 100 < 10) // 5% chance to shoot each frame
+		if (rand() % 100 < 5) // 5% chance to shoot each frame
 		{
 			Bullet* newBullet = enemy->shoot();
 			if (newBullet)
@@ -245,28 +246,22 @@ void	Game::renderBackground()
 
 void Game::addMinion()
 {
-	try
-	{
-		int x = rand() % _screenWidth;
-		int y = 2; // spawn at top
-		_enemies.push_back(new Minion(x, y, 0, 0));
-	}
-	catch (const std::exception& e)
-	{
-		std::cerr << "Error adding minion: " << e.what() << std::endl;
-	}
+	int x = 1 + rand() % (_screenWidth - 2);
+	int y = 2; // spawn at top
+	_enemies.push_back(new Minion(x, y, 0, 0));
 }
 
 void Game::addBoss()
 {
-	int x = _screenWidth / 2;
+	int x = 1 + rand() % (_screenWidth - 2);
 	int y = 2;
 	_enemies.push_back(new Boss(x, y, 0, 0));
 }
 
 void	Game::addAsteroid()
 {
-	Asteroid* newAsteroid = new Asteroid(rand() % _screenWidth, 1, 0, 0);
+	int ax = 1 + rand() % (_screenWidth - 2);
+	Asteroid* newAsteroid = new Asteroid(ax, 1, 0, 0);
 	_asteroids.push_back(newAsteroid);
 }
 
@@ -294,7 +289,7 @@ bool	Game::playerMove(int playerId, int deltaX)
 	auto	it = _players.begin();
 	std::advance(it, playerId);
 
-	if ((*it)->getX() + deltaX < 0 || (*it)->getX() + deltaX >= _screenWidth)
+	if ((*it)->getX() + deltaX < 1 || (*it)->getX() + deltaX >= _screenWidth - 1)
 		return (false);
 
 	return ((*it)->move(deltaX, 0));

@@ -32,7 +32,7 @@ using namespace std;
 
 #define PLAYER_HEALTH 50
 #define MINION_HEALTH 2
-#define BOSS_HEALTH 3
+#define BOSS_HEALTH 5
 
 #define ASTEROID_HEALTH 1
 #define PROP_HEALTH 1

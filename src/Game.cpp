@@ -225,8 +225,8 @@ void	Game::update()
 			if (newBullet)
 				_enemiesBullets.push_back(newBullet);
 		}
-		// if (Boss* boss = dynamic_cast<Boss*>(enemy))
-		// 	bossBehavior(boss);
+		if (Boss* boss = dynamic_cast<Boss*>(enemy))
+			bossBehavior(boss);
 	}
 
 	cleanDeathEntities();
@@ -343,7 +343,7 @@ int		Game::getEnemyCount() const
 
 void	Game::bossBehavior(Boss *enemy)
 {
-	if (rand() % 100 < 1) // Move the boss towards the nearest player 1% of the time
+	if (rand() % 100 < 90) // Move the boss towards the nearest player 2% of the time
 		return;
 
 	// Find the nearest living player
@@ -372,16 +372,24 @@ void	Game::bossBehavior(Boss *enemy)
 		int moveX = 0;
 		int moveY = 0;
 
-		// Calculate direction (move 1 unit per frame)
-		if (nearestPlayer->getX() > enemy->getX())
-			moveX = 1;
-		else if (nearestPlayer->getX() < enemy->getX())
-			moveX = -1;
+		int dx = abs(nearestPlayer->getX() - enemy->getX());
+		int dy = abs(nearestPlayer->getY() - enemy->getY());
 
-		if (nearestPlayer->getY() > enemy->getY())
-			moveY = 1;
-		else if (nearestPlayer->getY() < enemy->getY())
-			moveY = -1;
+		// If horizontal distance is greater, move horizontally; otherwise move vertically
+		if (dx > dy)
+		{
+			if (nearestPlayer->getX() > enemy->getX())
+				moveX = 1;
+			else if (nearestPlayer->getX() < enemy->getX())
+				moveX = -1;
+		}
+		else
+		{
+			if (nearestPlayer->getY() > enemy->getY())
+				moveY = 1;
+			else if (nearestPlayer->getY() < enemy->getY())
+				moveY = -1;
+		}
 
 		enemy->move(moveX, moveY);
 	}

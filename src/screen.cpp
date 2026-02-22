@@ -31,6 +31,11 @@ clock_t Screen::getCurrentTime()
     return clock() - startTime;
 }
 
+void Screen::erase()
+{
+    ::erase();
+}
+
 void Screen::end()
 {
     curs_set(1);

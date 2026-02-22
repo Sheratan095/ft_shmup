@@ -31,11 +31,12 @@ int main() {
         if (frame_count % (CLOCKS_PER_SEC * 10) == 0) 
             AddEnemies(game, game.getScore(), w, h);
         // Update every 60th of a second
-        if (frame_count % (CLOCKS_PER_SEC / 60) == 0)
+        if (frame_count % (CLOCKS_PER_SEC / 6) == 0)
         {
-            scr.clear(); // DONT PUT FUNCTIONS BACK 
+			scr.clear(); // DONT PUT FUNCTIONS BACK 
             DrawHUD(scr, game, scr.getCurrentTime() / CLOCKS_PER_SEC);
             game.showEntities(scr);
+			scr.refresh();
         }
         if (frame_count % (CLOCKS_PER_SEC) == 0) // Update game logic every 10th of a second
             game.update();
@@ -48,7 +49,8 @@ int main() {
 
 void DrawHUD(Screen& scr, const Game& game, long startTime)
 {
-	
+
+
     int h = scr.getHeight();
     int w = scr.getWidth();
 
@@ -56,12 +58,12 @@ void DrawHUD(Screen& scr, const Game& game, long startTime)
     int playerHealth = game.getPlayerHealth(0);
 
 	wattron(stdscr, COLOR_PAIR(UHD_COLOR_PAIR));
-
+	box(stdscr, 0, 0); // Draw border around the screen
     mvhline(h - 4, 0, '-', w);  // top border of HUD
 	mvprintw(h - 3, 2, "|"); // left border of HUD
     mvprintw(h - 3, 2, "Score: %d", game.getScore());
     mvprintw(h - 3, w / 3, "Health: %d", playerHealth);
-	mvprintw(h - 3, (2 * w) / 3, "Time: %lds", startTime);
+	mvprintw(h - 3, (2 * w) / 3, "Time: %lds ", startTime);
 
     mvprintw(h - 2, 2, "Controls: A/D Move  W Shoot  Q Quit");
 	wattroff(stdscr, A_NORMAL);

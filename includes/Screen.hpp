@@ -13,6 +13,7 @@ public:
     void    init();
     void    end();
     void    clear();
+    void    erase();
     void    refresh();
     void    handleResize();
     clock_t    getCurrentTime();

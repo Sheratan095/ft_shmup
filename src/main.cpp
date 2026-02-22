@@ -5,7 +5,7 @@ void DrawHUD(Screen& scr, Game& game, long startTime);
 
 void AddEnemies(Game& game, int score, int screenWidth, int screenHeight);
 
-void	switchInput(int ch, Game *game);
+void	switchInput(int ch, Game *game, Screen& scr);
 
 int ShowMenu(Screen& scr);
 
@@ -25,10 +25,11 @@ int main() {
     Game game(players, h - marginPlayersLine, w, h); // Start with selected player count
 
     game.start();
-    game.addBoss(); // Start with one enemy
+    game.addMinion(); // Start with one enemy
+    game.addAsteroid(); // Start with one asteroid
+    game.addBoss(); // Start with one boss
 	while (game.isRunning())
 	{
-
 		// Get current dimvoid AddEnemies(Game& game, int score, int screenWidth, int screenHeight)ensions
         w = scr.getWidth();
         h = scr.getHeight();
@@ -49,7 +50,7 @@ int main() {
             game.update(); // Update game state every 10th of a second
 
         frame_count++;
-		switchInput(getch(), &game);
+		switchInput(getch(), &game, scr);
 	}
 	return 0;
 }
@@ -91,7 +92,7 @@ void AddEnemies(Game& game, int score, int screenWidth, int screenHeight)
     }
 }
 
-void switchInput(int ch, Game *game)
+void switchInput(int ch, Game *game, Screen& scr)
 {
 
     switch (ch)
@@ -123,7 +124,9 @@ void switchInput(int ch, Game *game)
         case KEY_UP:
             game->playerShoot(1);
             break;
-
+        case KEY_RESIZE:
+            scr.handleResize();
+            break;
         // Quit
         case 'q':
         case 'Q':

@@ -120,6 +120,9 @@ void	Game::update()
 	{
 		if (bullet->move(0, 1))
 		{
+			if (bullet->getY() >= _screenHeight - 3)
+				bullet->setHealth(0);
+
 			for (Player* player : _players)
 			{
 				if (bullet->getX() == player->getX() && bullet->getY() == player->getY())
@@ -149,6 +152,9 @@ void	Game::update()
 	{
 		if (bullet->move(0, -1))
 		{
+			if (bullet->getY() <= 0)
+				bullet->setHealth(0);
+
 			// Check bullets collision with asteroids first
 			for (Asteroid* asteroid : _asteroids)
 			{
@@ -176,8 +182,14 @@ void	Game::update()
 				}
 			}
 
-			if (bullet->getY() <= 0)
-				bullet->setHealth(0); // Mark bullet for deletion
+			for (Bullet *enemyBullet : _enemiesBullets)
+			{
+				if (bullet->getX() == enemyBullet->getX() && bullet->getY() == enemyBullet->getY())
+				{
+					bullet->setHealth(0); // Mark player bullet for deletion
+					enemyBullet->setHealth(0); // Mark enemy bullet for deletion
+				}
+			}
 		}
 		else
 			bullet->setHealth(0); // Mark bullet for deletion

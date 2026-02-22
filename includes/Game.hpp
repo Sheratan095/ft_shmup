@@ -33,6 +33,8 @@ class Game
 
 		int		getPlayerHealth(int playerId) const;
 		int		getScore() const;
+		int		getEnemyCount() const;
+
 		void	setHeight(int newH);
 		void	setWidth(int newW);
 

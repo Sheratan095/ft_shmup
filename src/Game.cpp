@@ -127,6 +127,8 @@ void	Game::update()
 					player->takeDamage(dynamic_cast<Minion*>(bullet) ? MINION_DAMAGE : BOSS_DAMAGE);
 					bullet->setHealth(0); // Mark bullet for deletion
 				}
+				if (bullet->getY() >= _screenHeight - 3)
+					bullet->setHealth(0); // Mark bullet for deletion
 			}
 
 			for (Bullet *playerBullet : _playersBullets)
@@ -173,6 +175,9 @@ void	Game::update()
 					}
 				}
 			}
+
+			if (bullet->getY() <= 0)
+				bullet->setHealth(0); // Mark bullet for deletion
 		}
 		else
 			bullet->setHealth(0); // Mark bullet for deletion
@@ -231,7 +236,7 @@ void Game::addMinion()
 	try
 	{
 		int x = rand() % _screenWidth;
-		int y = 0; // spawn at top
+		int y = 2; // spawn at top
 		_enemies.push_back(new Minion(x, y, 0, 0));
 	}
 	catch (const std::exception& e)
@@ -243,7 +248,7 @@ void Game::addMinion()
 void Game::addBoss()
 {
 	int x = _screenWidth / 2;
-	int y = 0;
+	int y = 2;
 	_enemies.push_back(new Boss(x, y, 0, 0));
 }
 
@@ -310,6 +315,11 @@ bool	Game::isGameOver() const
 			return (false);
 	}
 	return (true);
+}
+
+int	Game::getEnemyCount() const
+{
+	return (_enemies.size());
 }
 
 const char	*Game::InvalidParameters::what() const throw()

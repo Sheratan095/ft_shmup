@@ -24,6 +24,7 @@ class Game
 		void    stop() { _started = false; }
 		void	start();
 		void	update();
+		bool	isGameOver() const;
 		void    showEntities(Screen& screen) const;
 		void	cleanDeathEntities();
 		bool    isRunning() const { return _started; }

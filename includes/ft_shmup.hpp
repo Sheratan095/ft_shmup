@@ -13,8 +13,8 @@ using namespace std;
 #define MINION_SYMBOL 'Minion'
 #define BOSS_SYMBOL 'Boss'
 #define ASTEROID_SYMBOL 'Asteroid'
-#define BULLET_SYMBOL '!'
 #define PLAYER_SYMBOL 'P'
+#define PLAYER_BULLET_SYMBOL '|'
 #define BOSS_BULLET_SYMBOL '*'
 #define MINION_BULLET_SYMBOL '+'
 
@@ -58,5 +58,7 @@ using namespace std;
 #include "Star.hpp"
 #include "Game.hpp"
 #include "Screen.hpp"
+
+int ShowMenu(Screen& scr);
 
 #endif

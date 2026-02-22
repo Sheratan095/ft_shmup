@@ -6,8 +6,7 @@ CC = c++ -Ofast -g
 SRCS = src/main.cpp \
 	    src/screen.cpp \
 		src/Game.cpp \
-# 		src/AEntity.cpp \
-# 		src/render.cpp \
+		src/menù.cpp \
 
 LIBS = -lncurses
 

@@ -11,6 +11,7 @@ class Game
 		list<Bullet*>	_enemiesBullets;
 		list<Bullet*>	_playersBullets;
 		list<Asteroid*>	_asteroids;
+		list<Star*>		_props;
 		int				_score = 0;
 		bool			_started = false;
 		int				_screenWidth;
@@ -24,6 +25,7 @@ class Game
 		void    stop();
 		void	start();
 		void	update();
+		void	renderBackground();
 		bool	isGameOver() const;
 		void    showEntities(Screen& screen) const;
 		void	cleanDeathEntities();
@@ -31,12 +33,15 @@ class Game
 
 		int		getPlayerHealth(int playerId) const;
 		int		getScore() const;
+		int		getEnemyCount() const;
+
 		void	setHeight(int newH);
 		void	setWidth(int newW);
 
 		void	addMinion();
 		void	addBoss();
 		void	addAsteroid();
+		void	addStar();
 
 		bool	playerMove(int playerId, int deltaX);
 		void	playerShoot(int playerId);

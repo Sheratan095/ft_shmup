@@ -1,7 +1,7 @@
 #include "ft_shmup.hpp"
 
 
-void DrawHUD(Screen& scr, const Game& game, long startTime);
+void DrawHUD(Screen& scr, Game& game, long startTime);
 
 void AddEnemies(Game& game, int score, int screenWidth, int screenHeight);
 
@@ -40,6 +40,8 @@ int main() {
         }
         if (frame_count % (CLOCKS_PER_SEC) == 0) // Update game logic every 10th of a second
             game.update();
+		if (frame_count % (CLOCKS_PER_SEC * 3) == 0) // Handle input every 10th of a second
+			game.addStar(); // Add new stars to the background every 3rd of a second
 
         frame_count++;
 		switchInput(getch(), &game);
@@ -47,10 +49,8 @@ int main() {
 	return 0;
 }
 
-void DrawHUD(Screen& scr, const Game& game, long startTime)
+void DrawHUD(Screen& scr, Game& game, long startTime)
 {
-
-
     int h = scr.getHeight();
     int w = scr.getWidth();
 
@@ -75,7 +75,7 @@ void AddEnemies(Game& game, int score, int screenWidth, int screenHeight)
     // Add a new enemy every 100 points
 
     while (difficultyLevel > 0) // 10% chance to add an enemy each frame, scaled by difficulty
-    {
+    {w,
         // Randomly decide to add either an AEnemy or an Asteroid
         int divisor = std::max(1, 10 - difficultyLevel); // Ensure divisor is never 0
         if (rand() % divisor == 0)

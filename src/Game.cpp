@@ -31,6 +31,9 @@ Game::~Game()
 
 	for (Asteroid* asteroid : _asteroids)
 		delete (asteroid);
+
+	for (Star* star : _props)
+		delete (star);
 }
 
 int	Game::getPlayerHealth(int playerId) const
@@ -66,6 +69,9 @@ int	Game::getScore() const
 
 void	Game::showEntities(Screen& screen) const
 {
+	for (Star* star : _props)
+		star->render(stdscr);
+
 	for (Player* player : _players)
 		player->render(stdscr);
 
@@ -75,13 +81,17 @@ void	Game::showEntities(Screen& screen) const
 	for (Bullet* bullet : _playersBullets)
 		bullet->render(stdscr);
 
+	for (Bullet* bullet : _enemiesBullets)
+		bullet->render(stdscr);
+
 	for (Asteroid* asteroid : _asteroids)
 		asteroid->render(stdscr);
 }
 
-void	Game::stop()
+void	Game::addStar()
 {
-	_started = false;
+	Star* newStar = new Star(rand() % _screenWidth, 1, 0, 0);
+	_props.push_back(newStar);
 }
 
 void	Game::start()
@@ -89,8 +99,22 @@ void	Game::start()
 	_started = true;
 }
 
+void	Game::stop()
+{
+	_started = false;
+}
+
 void	Game::update()
 {
+	// Update stars position and remove those that go off-screen
+	for (Star* star : _props)
+	{
+		if (!star->move(0, 1) || star->getY() >= _screenHeight - 4)
+		{
+			star->setHealth(0); // Mark star for deletion
+		}
+	}
+
 	// Move enemies's bullets downwards and check for collisions with players
 	for (Bullet* bullet : _enemiesBullets)
 	{
@@ -100,8 +124,19 @@ void	Game::update()
 			{
 				if (bullet->getX() == player->getX() && bullet->getY() == player->getY())
 				{
-					player->takeDamage(PLAYER_DAMAGE);
+					player->takeDamage(dynamic_cast<Minion*>(bullet) ? MINION_DAMAGE : BOSS_DAMAGE);
 					bullet->setHealth(0); // Mark bullet for deletion
+				}
+				if (bullet->getY() >= _screenHeight - 3)
+					bullet->setHealth(0); // Mark bullet for deletion
+			}
+
+			for (Bullet *playerBullet : _playersBullets)
+			{
+				if (bullet->getX() == playerBullet->getX() && bullet->getY() == playerBullet->getY())
+				{
+					bullet->setHealth(0); // Mark enemy bullet for deletion
+					playerBullet->setHealth(0); // Mark player bullet for deletion
 				}
 			}
 		}
@@ -140,6 +175,9 @@ void	Game::update()
 					}
 				}
 			}
+
+			if (bullet->getY() <= 0)
+				bullet->setHealth(0); // Mark bullet for deletion
 		}
 		else
 			bullet->setHealth(0); // Mark bullet for deletion
@@ -166,10 +204,31 @@ void	Game::update()
 		}
 	}
 
+	// Enemies shooting
+	for (AEnemy* enemy : _enemies)
+	{
+		if (rand() % 100 < 10) // 5% chance to shoot each frame
+		{
+			Bullet* newBullet = enemy->shoot();
+			if (newBullet)
+				_enemiesBullets.push_back(newBullet);
+		}
+	}
+
 	cleanDeathEntities();
 
 	if (isGameOver())
 		stop();
+}
+
+void	Game::renderBackground()
+{
+	// Move stars downwards and remove those that go off-screen
+	for (Star* star : _props)
+	{
+		if (!star->move(0, 1) || star->getY() >= _screenHeight - 3)
+			star->setHealth(0); // Mark star for deletion
+	}
 }
 
 void Game::addMinion()
@@ -177,7 +236,7 @@ void Game::addMinion()
 	try
 	{
 		int x = rand() % _screenWidth;
-		int y = 0; // spawn at top
+		int y = 2; // spawn at top
 		_enemies.push_back(new Minion(x, y, 0, 0));
 	}
 	catch (const std::exception& e)
@@ -189,7 +248,7 @@ void Game::addMinion()
 void Game::addBoss()
 {
 	int x = _screenWidth / 2;
-	int y = 0;
+	int y = 2;
 	_enemies.push_back(new Boss(x, y, 0, 0));
 }
 
@@ -205,6 +264,7 @@ void	Game::cleanDeathEntities()
 	_enemiesBullets.remove_if([](Bullet* bullet) { if (!bullet->isAlive()) { delete bullet; return true; } return false; });
 	_playersBullets.remove_if([](Bullet* bullet) { if (!bullet->isAlive()) { delete bullet; return true; } return false; });
 	_asteroids.remove_if([](Asteroid* asteroid) { if (!asteroid->isAlive()) { delete asteroid; return true; } return false; });
+	_props.remove_if([](Star* star) { if (!star->isAlive()) { delete star; return true; } return false; });
 }
 
 // Return false if the move would put the player out of bounds, true otherwise
@@ -255,6 +315,11 @@ bool	Game::isGameOver() const
 			return (false);
 	}
 	return (true);
+}
+
+int	Game::getEnemyCount() const
+{
+	return (_enemies.size());
 }
 
 const char	*Game::InvalidParameters::what() const throw()

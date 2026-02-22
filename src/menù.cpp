@@ -1,59 +1,102 @@
 #include "ft_shmup.hpp"
 
-int ShowMenu(Screen& scr)
+int ShowMenu(Screen& scr, int* endless)
 {
+    keypad(stdscr, TRUE);
+    curs_set(0);
+
     int h = scr.getHeight();
     int w = scr.getWidth();
 
     const char *title = "FT_SHMUP";
-    const char *options[] = {"Single Player", "Two Players"};
-    const int optCount = 2;
-    int choice = 0;
 
-    keypad(stdscr, TRUE);
-    curs_set(0);
-    int prev_choice = -1;
-    bool first_draw = true;
+    const char *modeOptions[] = {"Story Mode", "Endless Mode"};
+    const int modeCount = 2;
+    int modeChoice = 0;
 
+    scr.clear();
     while (true)
     {
-        if (first_draw || choice != prev_choice)
+        mvprintw(h / 2 - 4, (w - (int)strlen(title)) / 2, "%s", title);
+        mvprintw(h / 2 - 2, (w - 12) / 2, "Select Mode");
+
+        for (int i = 0; i < modeCount; ++i)
         {
-            scr.clear();
-            mvprintw(h / 2 - 3, (w - (int)strlen(title)) / 2, "%s", title);
-            for (int i = 0; i < optCount; ++i)
+            int x = (w - (int)strlen(modeOptions[i])) / 2;
+            int y = h / 2 + i;
+
+            if (i == modeChoice)
             {
-                int x = (w - (int)strlen(options[i])) / 2;
-                int y = h / 2 - 1 + i;
-                if (i == choice)
-                {
-                    attron(A_REVERSE);
-                    mvprintw(y, x, "%s", options[i]);
-                    attroff(A_REVERSE);
-                }
-                else
-                {
-                    mvprintw(y, x, "%s", options[i]);
-                }
+                attron(A_REVERSE);
+                mvprintw(y, x, "%s", modeOptions[i]);
+                attroff(A_REVERSE);
             }
-            mvprintw(h / 2 + 3, (w - 30) / 2, "Use Up/Down and Enter to select. Q to quit");
-            scr.refresh();
-            prev_choice = choice;
-            first_draw = false;
+            else
+                mvprintw(y, x, "%s", modeOptions[i]);
         }
+
+        mvprintw(h / 2 + 4, (w - 30) / 2, "Use Up/Down and Enter. Q to quit");
+        scr.refresh();
 
         int ch = getch();
         if (ch == KEY_UP)
-            choice = (choice - 1 + optCount) % optCount;
+            modeChoice = (modeChoice - 1 + modeCount) % modeCount;
         else if (ch == KEY_DOWN)
-            choice = (choice + 1) % optCount;
+            modeChoice = (modeChoice + 1) % modeCount;
         else if (ch == '\n' || ch == KEY_ENTER || ch == 10)
-            return choice + 1; // return 1 or 2
+        {
+            *endless = modeChoice; // 0 = Story, 1 = Endless
+            break;
+        }
         else if (ch == 'q' || ch == 'Q')
         {
             endwin();
             exit(0);
         }
-        // Ignore other keys (including number keys)
+    }
+    const char *playerOptions[] = {"Single Player", "Two Players"};
+    const int playerCount = 2;
+    int playerChoice = 0;
+
+    scr.clear();
+    while (true)
+    {
+        mvprintw(h / 2 - 4, (w - (int)strlen(title)) / 2, "%s", title);
+
+        mvprintw(h / 2 - 2, (w - 20) / 2,
+                 "Mode: %s", (*endless == 1 ? "Endless" : "Story"));
+
+        mvprintw(h / 2 - 1, (w - 15) / 2, "Select Players");
+
+        for (int i = 0; i < playerCount; ++i)
+        {
+            int x = (w - (int)strlen(playerOptions[i])) / 2;
+            int y = h / 2 + i + 1;
+
+            if (i == playerChoice)
+            {
+                attron(A_REVERSE);
+                mvprintw(y, x, "%s", playerOptions[i]);
+                attroff(A_REVERSE);
+            }
+            else
+                mvprintw(y, x, "%s", playerOptions[i]);
+        }
+
+        mvprintw(h / 2 + 5, (w - 30) / 2, "Use Up/Down and Enter. Q to quit");
+        scr.refresh();
+
+        int ch = getch();
+        if (ch == KEY_UP)
+            playerChoice = (playerChoice - 1 + playerCount) % playerCount;
+        else if (ch == KEY_DOWN)
+            playerChoice = (playerChoice + 1) % playerCount;
+        else if (ch == '\n' || ch == KEY_ENTER || ch == 10)
+            return playerChoice + 1; // 1 or 2 players
+        else if (ch == 'q' || ch == 'Q')
+        {
+            endwin();
+            exit(0);
+        }
     }
 }

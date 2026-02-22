@@ -274,7 +274,7 @@ void	Game::addBoss()
 
 void	Game::addAsteroid()
 {
-	int ax = 1 + rand() % (_screenWidth - 2);
+	int ax = 1 + rand() % (_screenWidth - 2 - 3);
 	Asteroid* newAsteroid = new Asteroid(ax, 1, 3, 1);
 	_asteroids.push_back(newAsteroid);
 }

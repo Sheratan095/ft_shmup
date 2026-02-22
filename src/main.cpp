@@ -1,13 +1,13 @@
 #include "ft_shmup.hpp"
 
 
-void DrawHUD(Screen& scr, Game& game, long startTime, int playerCount);
+void DrawHUD(Screen& scr, Game& game, long startTime, int playerCount, int endless);
 
 void AddEnemies(Game& game, int score);
 
 void	switchInput(int ch, Game *game, Screen& scr);
 
-int ShowMenu(Screen& scr);
+int ShowMenu(Screen& scr, int* endless);
 
 unsigned long long frame_count = 0;
 
@@ -15,9 +15,9 @@ int main() {
 	Screen scr;
 	scr.init();
 	int marginPlayersLine = 5;
-
+    int endless = 1; // Default to endless mode
     // Show start menu to choose number of players
-    int players = ShowMenu(scr);
+    int players = ShowMenu(scr, &endless);
 
     int h = scr.getHeight();
 	int w = scr.getWidth();
@@ -34,17 +34,24 @@ int main() {
         w = scr.getWidth();
         h = scr.getHeight();
 
-        if (frame_count % (CLOCKS_PER_SEC * 10) == 0) 
-            AddEnemies(game, game.getScore());
+        if (frame_count % (CLOCKS_PER_SEC * 10) == 0)
+        {
+            if (endless == 1) // Only add enemies in endless mode
+                AddEnemies(game, game.getScore());
+            //else
+                // Story mode: add a boss every 500 points
+        } // Add new enemies every 10 seconds in endless mode 
         // Update every 60th of a second
         if (frame_count % (CLOCKS_PER_SEC / 6) == 0)
         {
 			scr.clear(); // DONT PUT FUNCTIONS BACK 
-            DrawHUD(scr, game, scr.getCurrentTime() / CLOCKS_PER_SEC, players);
+            DrawHUD(scr, game, scr.getCurrentTime() / CLOCKS_PER_SEC, players, endless);
             game.showEntities();
 			scr.refresh();
         }
-		if (frame_count % (CLOCKS_PER_SEC / 3) == 0) // Handle input every 10th of a second
+        if (frame_count % (CLOCKS_PER_SEC * 5) == 0)
+            game.addAsteroid(); // Add new asteroids every 5 seconds
+        if (frame_count % (CLOCKS_PER_SEC * 3) == 0) // Handle input every 10th of a second
 			game.addStar(); // Add new stars to the background every 3rd of a second
         if (frame_count % (CLOCKS_PER_SEC / 10) == 0)
             game.update(); // Update game state every 10th of a second
@@ -55,7 +62,7 @@ int main() {
 	return 0;
 }
 
-void DrawHUD(Screen& scr, Game& game, long startTime, int playerCount)
+void DrawHUD(Screen& scr, Game& game, long startTime, int playerCount, int endless)
 {
     int h = scr.getHeight();
     int w = scr.getWidth();
@@ -63,6 +70,7 @@ void DrawHUD(Screen& scr, Game& game, long startTime, int playerCount)
     // background color for HUD area
     wattron(stdscr, COLOR_PAIR(UHD_COLOR_PAIR));
 
+    box(stdscr, 0, 0); // draw a box of height 5 at the bottom of the screen
     // separator line above HUD
     mvhline(h - 5, 0, ' ', w); // clear the row just above HUD
     mvhline(h - 4, 0, '-', w);
@@ -89,6 +97,7 @@ void DrawHUD(Screen& scr, Game& game, long startTime, int playerCount)
 
     // time on right side
     mvprintw(h - 3, w - 20, "Time: %lds", startTime);
+    mvprintw(h - 2, w - 20, "MODE: %s", (endless == 1 ? "Endless" : "Story"));
 
     // controls row
     mvprintw(h - 2, 2, "Controls: A/D Move  W Shoot  Q Quit");
@@ -98,21 +107,28 @@ void DrawHUD(Screen& scr, Game& game, long startTime, int playerCount)
 
 void AddEnemies(Game& game, int score)
 {
-    int difficultyLevel = score / 100; // Increase difficulty every 100 points
-    // Add a new enemy every 100 points
+    static int lastBossScore = 0;
 
-    while (difficultyLevel > 0) // 10% chance to add an enemy each frame, scaled by difficulty
+    int level = score / 100; 
+
+    int spawnChance = 30 + level * 10; 
+
+    if (rand() % 100 < spawnChance)
     {
-        // Randomly decide to add either an AEnemy or an Asteroid
-        int divisor = std::max(1, 10 - difficultyLevel); // Ensure divisor is never 0
-        if (rand() % divisor == 0)
-            game.addMinion(); // ADD ENEMY HERE
+        int roll = rand() % 100;
+
+        if (roll < 20)
+            game.addAsteroid();
         else
-            game.addAsteroid(); // ADD ASTEROID HERE
-        difficultyLevel--;
+            game.addMinion();
+    }
+
+    if (score >= lastBossScore + 1000)
+    {
+        game.addBoss();
+        lastBossScore = score;
     }
 }
-
 void switchInput(int ch, Game *game, Screen& scr)
 {
 

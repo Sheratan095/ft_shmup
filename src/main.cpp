@@ -58,8 +58,8 @@ void DrawHUD(Screen& scr, Game& game, long startTime)
     int playerHealth = game.getPlayerHealth(0);
 
 	wattron(stdscr, COLOR_PAIR(UHD_COLOR_PAIR));
+    mvhline(h - 4, 1, '-', w);  // top border of HUD
 	box(stdscr, 0, 0); // Draw border around the screen
-    mvhline(h - 4, 0, '-', w);  // top border of HUD
 	mvprintw(h - 3, 2, "|"); // left border of HUD
     mvprintw(h - 3, 2, "Score: %d", game.getScore());
     mvprintw(h - 3, w / 3, "Health: %d", playerHealth);
@@ -75,7 +75,7 @@ void AddEnemies(Game& game, int score, int screenWidth, int screenHeight)
     // Add a new enemy every 100 points
 
     while (difficultyLevel > 0) // 10% chance to add an enemy each frame, scaled by difficulty
-    {w,
+    {
         // Randomly decide to add either an AEnemy or an Asteroid
         int divisor = std::max(1, 10 - difficultyLevel); // Ensure divisor is never 0
         if (rand() % divisor == 0)

@@ -1,7 +1,7 @@
 #include "ft_shmup.hpp"
 
 
-void DrawHUD(Screen& scr, Game& game, int startTime);
+void DrawHUD(Screen& scr, Game& game, long startTime);
 
 void AddEnemies(Game& game, int score, int screenWidth, int screenHeight);
 
@@ -20,7 +20,7 @@ int main() {
 	Game game(1, h - marginPlayersLine, w, h); // Start with 1 player, screen width, and player starting Y position
 
     game.start();
-    game.addMinion(); // Start with one enemy
+    game.addBoss(); // Start with one enemy
 	while (game.isRunning())
 	{
 
@@ -30,7 +30,6 @@ int main() {
 
         if (frame_count % (CLOCKS_PER_SEC * 10) == 0) 
             AddEnemies(game, game.getScore(), w, h);
-
         // Update every 60th of a second
         if (frame_count % (CLOCKS_PER_SEC / 60) == 0)
         {
@@ -49,10 +48,11 @@ int main() {
 	return 0;
 }
 
-void DrawHUD(Screen& scr, Game& game, int startTime)
+void DrawHUD(Screen& scr, Game& game, long startTime)
 {
     int h = scr.getHeight();
     int w = scr.getWidth();
+
 
     int playerHealth = game.getPlayerHealth(0);
 
@@ -62,10 +62,9 @@ void DrawHUD(Screen& scr, Game& game, int startTime)
 	mvprintw(h - 3, 2, "|"); // left border of HUD
     mvprintw(h - 3, 2, "Score: %d", game.getScore());
     mvprintw(h - 3, w / 3, "Health: %d", playerHealth);
-	mvprintw(h - 3, (2 * w) / 3, "Time: %lds", (long)(scr.getCurrentTime() / CLOCKS_PER_SEC));
+	mvprintw(h - 3, (2 * w) / 3, "Time: %lds", startTime);
 
     mvprintw(h - 2, 2, "Controls: A/D Move  W Shoot  Q Quit");
-
 	wattroff(stdscr, A_NORMAL);
 }
 
@@ -115,7 +114,7 @@ void switchInput(int ch, Game *game)
         case KEY_RIGHT:
             game->playerMove(1, 1);
             break;
-        case KEY_UP:
+        case KEY_UP:	sleep(100000);
             game->playerShoot(1);
             break;
 

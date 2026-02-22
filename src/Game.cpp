@@ -47,6 +47,21 @@ int	Game::getPlayerHealth(int playerId) const
 	return (*it)->getHealth();
 }
 
+bool    Game::isRunning() const
+{
+	return (_started);
+}
+
+void	Game::setHeight(int newH)
+{
+	_screenHeight = newH;
+}
+
+void	Game::setWidth(int newW)
+{
+	_screenWidth = newW;
+}
+
 int	Game::getScore() const
 {
 	return (_score);
@@ -82,6 +97,11 @@ void	Game::addStar()
 void	Game::start()
 {
 	_started = true;
+}
+
+void	Game::stop()
+{
+	_started = false;
 }
 
 void	Game::update()

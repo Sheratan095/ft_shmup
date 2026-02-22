@@ -22,17 +22,19 @@ class Game
 		Game(int numPlayers, int playerStartY, int screenWidth, int screenHeight);
 		~Game();
 
-		void    stop() { _started = false; }
+		void    stop();
 		void	start();
 		void	update();
 		void	renderBackground();
 		bool	isGameOver() const;
 		void    showEntities(Screen& screen) const;
 		void	cleanDeathEntities();
-		bool    isRunning() const { return _started; }
+		bool    isRunning() const;
 
 		int		getPlayerHealth(int playerId) const;
 		int		getScore() const;
+		void	setHeight(int newH);
+		void	setWidth(int newW);
 
 		void	addMinion();
 		void	addBoss();

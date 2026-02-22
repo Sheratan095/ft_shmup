@@ -2,7 +2,7 @@
 
 
 void DrawHUD(Screen& scr, Game& game, long startTime, int playerCount, int endless);
-void storyMode(Game& game, int score);
+bool storyMode(Game& game, int score);
 void AddEnemies(Game& game, int score);
 
 void	switchInput(int ch, Game *game, Screen& scr);
@@ -35,8 +35,12 @@ int main() {
 		{
 			if (endless == 1) // Only add enemies in endless mode
 				AddEnemies(game, game.getScore());
-			else
-				storyMode(game, game.getScore());
+			{
+				if (storyMode(game, game.getScore()) == false)
+				{
+					game.stop(); // Stop the game if story mode returns false (game over)
+				}
+			}
 		} // Add new enemies every 10 seconds in endless mode 
 		// Update every 60th of a second
 		if (frame_count % (CLOCKS_PER_SEC / 6) == 0)
@@ -48,9 +52,9 @@ int main() {
 		}
 		if (frame_count % (CLOCKS_PER_SEC * 5) == 0)
 			game.addAsteroid(); // Add new asteroids every 5 seconds
-		if (frame_count % (CLOCKS_PER_SEC * 3) == 0) // Handle input every 10th of a second
+		if (frame_count % (CLOCKS_PER_SEC / 3) == 0) // Handle input every 10th of a second
 			game.addStar(); // Add new stars to the background every 3rd of a second
-		if (frame_count % (CLOCKS_PER_SEC / 10) == 0)
+		if (frame_count % (CLOCKS_PER_SEC / 5) == 0)
 			game.update(); // Update game state every 10th of a second
 
 		frame_count++;
@@ -173,8 +177,11 @@ void switchInput(int ch, Game *game, Screen& scr)
 	}
 }
 
-void storyMode(Game& game, int score)
+// true when the game is still running, false when it's over
+bool storyMode(Game& game, int score)
 {
+	int maxWave = 3;
+	static int currentWave = 0;
 	static bool inWave = false;
 
 	int enemiesToSpawn = 3;
@@ -186,13 +193,19 @@ void storyMode(Game& game, int score)
 		{
 			game.addBoss();
 			inWave = false;
-			return;
+			return true;
 		}
 
-		enemiesToSpawn = 3; // nuova wave
+		if (currentWave == maxWave)
+			return false; // Game over, player wins
+
+		// Avvia una nuova wave
+		enemiesToSpawn = 3;
 		for (int i = 0; i < enemiesToSpawn; ++i)
 			game.addMinion();
 
+		currentWave++;
 		inWave = true;
 	}
+	return true;
 }

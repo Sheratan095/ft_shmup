@@ -33,7 +33,7 @@ test: re
 	reset
 
 val: all
-	valgrind -suppr ./$(NAME)
+	$(VALGRIND) ./$(NAME)
 
 #COLORS
 

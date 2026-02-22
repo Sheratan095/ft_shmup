@@ -1,72 +1,202 @@
+# Valgrind suppression file for ncurses library
+# Usage: valgrind --suppressions=ncurses.supp ./2048
+
+# Ncurses initscr() allocations
 {
-   ncurses_suppression_1
+   ncurses_initscr_still_reachable
    Memcheck:Leak
-   match-leak-kinds: reachable,possible,definite
-   fun:malloc
+   match-leak-kinds: reachable
    ...
    fun:initscr
-}
-{
-   ncurses_suppression_2
-   Memcheck:Leak
-   match-leak-kinds: reachable,possible,definite
-   fun:calloc
    ...
-   fun:initscr
 }
+
+# Ncurses newterm allocations
 {
-   ncurses_suppression_3
+   ncurses_newterm_still_reachable
    Memcheck:Leak
-   match-leak-kinds: reachable,possible,definite
-   fun:malloc
+   match-leak-kinds: reachable
    ...
    fun:newterm
-}
-{
-   ncurses_suppression_4
-   Memcheck:Leak
-   match-leak-kinds: reachable,possible,definite
-   fun:realloc
    ...
-   fun:_nc_cap_name
 }
+
+# Ncurses setupterm allocations
 {
-   ncurses_suppression_5
+   ncurses_setupterm_still_reachable
    Memcheck:Leak
-   match-leak-kinds: reachable,possible,definite
+   match-leak-kinds: reachable
+   ...
+   fun:setupterm
+   ...
+}
+
+# Ncurses tgetent allocations
+{
+   ncurses_tgetent_still_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:tgetent
+   ...
+}
+
+# Ncurses start_color allocations
+{
+   ncurses_start_color_still_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:start_color
+   ...
+}
+
+# Ncurses init_pair allocations
+{
+   ncurses_init_pair_still_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:init_pair
+   ...
+}
+
+# Ncurses possibly lost - general
+{
+   ncurses_possibly_lost_general
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   obj:*/libncurses*.so*
+   ...
+}
+
+# Ncurses definitely lost - if any show up
+{
+   ncurses_definitely_lost_general
+   Memcheck:Leak
+   match-leak-kinds: definite
+   ...
+   obj:*/libncurses*.so*
+   ...
+}
+
+# Ncurses strdup allocations
+{
+   ncurses_strdup_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
    fun:malloc
+   fun:strdup
    ...
-   fun:vw_printw
-}
-{
-   ncurses_suppression_6
-   Memcheck:Leak
-   match-leak-kinds: reachable,possible,definite
-   fun:malloc
+   obj:*/libncurses*.so*
    ...
-   fun:printw
 }
+
+# Ncurses calloc allocations
 {
-   ncurses_suppression_7
+   ncurses_calloc_reachable
    Memcheck:Leak
-   match-leak-kinds: reachable,possible,definite
-   fun:malloc
-   ...
-   obj:/usr/lib/x86_64-linux-gnu/libncurses*
-}
-{
-   ncurses_suppression_8
-   Memcheck:Leak
-   match-leak-kinds: reachable,possible,definite
+   match-leak-kinds: reachable
    fun:calloc
    ...
-   obj:/usr/lib/x86_64-linux-gnu/libncurses*
+   obj:*/libncurses*.so*
+   ...
 }
+
+# Ncurses malloc allocations
 {
-   ncurses_suppression_9
+   ncurses_malloc_reachable
    Memcheck:Leak
-   match-leak-kinds: reachable,possible,definite
+   match-leak-kinds: reachable
+   fun:malloc
+   ...
+   obj:*/libncurses*.so*
+   ...
+}
+
+# Ncurses realloc allocations
+{
+   ncurses_realloc_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
    fun:realloc
    ...
-   obj:/usr/lib/x86_64-linux-gnu/libncurses*
+   obj:*/libncurses*.so*
+   ...
+}
+
+# Ncurses _nc_setupscreen
+{
+   ncurses_setupscreen_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:_nc_setupscreen
+   ...
+}
+
+# Ncurses _nc_read_termcap_entry
+{
+   ncurses_read_termcap_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:_nc_read_termcap_entry
+   ...
+}
+
+# Ncurses dlopen related
+{
+   ncurses_dlopen_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_dlerror_run
+   ...
+   obj:*/libncurses*.so*
+   ...
+}
+
+# Ncurses _nc_keypad allocations
+{
+   ncurses_keypad_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   ...
+   fun:_nc_keypad
+   ...
+}
+
+# Ncurses _nc_add_to_try allocations
+{
+   ncurses_add_to_try_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_nc_add_to_try
+   ...
+}
+
+# Ncurses keypad() function allocations
+{
+   ncurses_keypad_function_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   ...
+   fun:keypad
+   ...
+}
+
+# Ncurses libtinfo allocations
+{
+   ncurses_libtinfo_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   ...
+   obj:*/libtinfo.so*
+   ...
 }

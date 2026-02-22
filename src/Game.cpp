@@ -232,7 +232,7 @@ void	Game::update()
 			for (Player* player : _players)
 			{
 				if (boss->checkCollision(*player))
-					player->takeDamage(BOSS_DAMAGE);
+					player->setHealth(0); // Instant death on collision with boss
 			}
 		}
 	}

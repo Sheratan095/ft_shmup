@@ -6,7 +6,7 @@
 class Bullet : public AEntity
 {
 	public:
-		Bullet(int x, int y, int colorPair)
+		Bullet(int x, int y, char symbol, int colorPair)
 			: AEntity(x, y, 0, 0, "bullet", 1, colorPair) {}
 		~Bullet() {}
  

@@ -17,7 +17,7 @@ class Boss : public AEnemy
 		int		getHealth() const { return _health; }
 		void	setHealth(int h) { _health = h; }
 
-		Bullet*	shoot() const { return (new Bullet(_x, _y + 1, BOSS_BULLET_COLOR_PAIR)); }
+		Bullet*	shoot() const { return (new Bullet(_x, _y + 1, BOSS_BULLET_SYMBOL, BOSS_BULLET_COLOR_PAIR)); }
 };
 
 #endif

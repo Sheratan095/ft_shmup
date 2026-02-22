@@ -38,8 +38,6 @@ int main() {
             game.showEntities(scr);
 			scr.refresh();
         }
-        if (frame_count % (CLOCKS_PER_SEC / 2) == 0)
-            game.update();
 		if (frame_count % (CLOCKS_PER_SEC * 3) == 0) // Handle input every 10th of a second
 			game.addStar(); // Add new stars to the background every 3rd of a second
 
@@ -115,7 +113,7 @@ void switchInput(int ch, Game *game)
         case KEY_RIGHT:
             game->playerMove(1, 1);
             break;
-        case KEY_UP:	sleep(100000);
+        case KEY_UP:
             game->playerShoot(1);
             break;
 

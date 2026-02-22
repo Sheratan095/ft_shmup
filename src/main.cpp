@@ -184,14 +184,16 @@ bool storyMode(Game& game, int score)
 	static int currentWave = 0;
 	static bool inWave = false;
 
-	int enemiesToSpawn = 3;
+	int minionToSpawn = 3 + currentWave * 2; // Increase enemies per wave
+	int bossToSpawn = 1 + currentWave; // Spawn a boss every 2 waves
 
 	// Quando non ci sono nemici => nuova wave
 	if (game.getEnemyCount() == 0)
 	{
 		if (inWave)
 		{
-			game.addBoss();
+			for (int i = 0; i < bossToSpawn; ++i)
+				game.addBoss();
 			inWave = false;
 			return true;
 		}
@@ -200,8 +202,8 @@ bool storyMode(Game& game, int score)
 			return false; // Game over, player wins
 
 		// Avvia una nuova wave
-		enemiesToSpawn = 3;
-		for (int i = 0; i < enemiesToSpawn; ++i)
+		int minionToSpawn = 3 + currentWave * 2;
+		for (int i = 0; i < minionToSpawn; ++i)
 			game.addMinion();
 
 		currentWave++;

@@ -94,15 +94,17 @@ void	Game::update()
 	{
 		if (bullet->move(0, -1))
 		{
+			// Check bullets collision with asteroids first
 			for (Asteroid* asteroid : _asteroids)
 			{
 				if (bullet->getX() == asteroid->getX() && bullet->getY() == asteroid->getY())
 				{
-					asteroid->takeDamage(ASTEROID_DAMAGE);
+					asteroid->takeDamage(PLAYER_DAMAGE);
 					bullet->setHealth(0);
-					_score += POINTS_PER_MINION;
+					_score += POINTS_PER_ASTEROID;
 				}
 			}
+			// Then check collision with enemies
 			for (AEnemy* enemy : _enemies)
 			{
 				if (bullet->getX() == enemy->getX() && bullet->getY() == enemy->getY())
@@ -123,6 +125,7 @@ void	Game::update()
 			bullet->setHealth(0); // Mark bullet for deletion
 	}
 
+	// Move asteroids downwards and check for collisions with players
 	for (Asteroid* asteroid : _asteroids)
 	{
 		if (!asteroid->move(0, 1) || asteroid->getY() >= _screenHeight - 3)

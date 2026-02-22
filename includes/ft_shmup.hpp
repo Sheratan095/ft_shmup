@@ -37,6 +37,7 @@ using namespace std;
 
 #define POINTS_PER_MINION 100
 #define POINTS_PER_BOSS 500
+#define POINTS_PER_ASTEROID 50
 
 #define INVISIBLE_CURSOR 0
 #define GRID_SIZE	4

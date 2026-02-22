@@ -14,6 +14,8 @@ class Bullet : public AEntity
 		int		getY() const { return _y; }
 		char	getSymbol() const { return _symbol; }
 
+		
+
 		virtual bool move(int dx, int dy) override { _x += dx; _y += dy; return true; }
 };
 

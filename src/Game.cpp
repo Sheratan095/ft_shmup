@@ -60,6 +60,9 @@ void	Game::showEntities(Screen& screen) const
 	for (Bullet* bullet : _playersBullets)
 		bullet->render(stdscr);
 
+	for (Bullet* bullet : _enemiesBullets)
+		bullet->render(stdscr);
+
 	for (Asteroid* asteroid : _asteroids)
 		asteroid->render(stdscr);
 }
@@ -143,6 +146,17 @@ void	Game::update()
 				player->takeDamage(ASTEROID_DAMAGE);
 				asteroid->setHealth(0);
 			}
+		}
+	}
+
+	// Enemies shooting
+	for (AEnemy* enemy : _enemies)
+	{
+		if (rand() % 100 < 10) // 5% chance to shoot each frame
+		{
+			Bullet* newBullet = enemy->shoot();
+			if (newBullet)
+				_enemiesBullets.push_back(newBullet);
 		}
 	}
 

@@ -14,6 +14,7 @@ using namespace std;
 #define BOSS_SYMBOL 'B'
 #define ASTEROID_SYMBOL 'A'
 #define BULLET_SYMBOL '!'
+#define ENEMY_BULLET_SYMBOL '*'
 
 #define UHD_COLOR_PAIR 8
 #define PLAYER_COLOR_PAIR 1
@@ -21,8 +22,8 @@ using namespace std;
 #define BOSS_COLOR_PAIR 3
 #define ASTEROID_COLOR_PAIR 4
 #define PLAYER_BULLET_COLOR_PAIR 5
-#define BOSS_BULLET_COLOR_PAIR 6
-#define MINION_BULLET_COLOR_PAIR 7
+#define BOSS_BULLET_COLOR_PAIR 3
+#define MINION_BULLET_COLOR_PAIR 2
 #define RESET_PAIR 0
 
 #define PLAYER_HEALTH 5

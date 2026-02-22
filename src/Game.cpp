@@ -195,7 +195,7 @@ void	Game::update()
 		else
 			bullet->setHealth(0); // Mark bullet for deletion
 	}
-
+	
 	// Move asteroids downwards and check for collisions with players
 	for (Asteroid* asteroid : _asteroids)
 	{
@@ -255,9 +255,8 @@ void	Game::renderBackground()
 
 void	Game::addMinion()
 {
-	// limit y spawn from y 2 to y 10
-	int x = 1 + rand() % (_screenWidth - 2);
-	int y = 2 + rand() % 9; // spawn y between 2 and 10 inclusive
+	int x = 1 + rand() % (_screenWidth - 2 - PLAYER_WIDTH);
+	int y = 2; // spawn at top
 	_enemies.push_back(new Minion(x, y, PLAYER_WIDTH, 1));
 }
 
@@ -271,7 +270,7 @@ void	Game::addBoss()
 void	Game::addAsteroid()
 {
 	int ax = 1 + rand() % (_screenWidth - 2);
-	Asteroid* newAsteroid = new Asteroid(ax, 1, 1, 1);
+	Asteroid* newAsteroid = new Asteroid(ax, 1, 3, 1);
 	_asteroids.push_back(newAsteroid);
 }
 

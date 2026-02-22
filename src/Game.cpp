@@ -275,24 +275,29 @@ void	Game::cleanDeathEntities()
 }
 
 // Return false if the move would put the player out of bounds, true otherwise
-bool	Game::playerMove(int playerId, int deltaX)
+bool Game::playerMove(int playerId, int deltaX)
 {
-	if (playerId < 0)
-		throw InvalidParameters();
+    if (playerId < 0)
+        throw InvalidParameters();
 
-	if (playerId >= static_cast<int>(_players.size()))
-		return (false);
+    if (playerId >= static_cast<int>(_players.size()))
+        return false;
 
-	if (!_started)
-		throw GameNotStarted();
+    if (!_started)
+        throw GameNotStarted();
 
-	auto	it = _players.begin();
-	std::advance(it, playerId);
+    auto it = _players.begin();
+    std::advance(it, playerId);
 
-	if ((*it)->getX() + deltaX < 1 || (*it)->getX() + deltaX >= _screenWidth - 1)
-		return (false);
+    Player* player = *it;
 
-	return ((*it)->move(deltaX, 0));
+    int newX = player->getX() + deltaX;
+    int width = PLAYER_WIDTH;
+
+    if (newX < 1 || newX + width > _screenWidth - 1)
+        return false;
+
+    return player->move(deltaX, 0);
 }
 
 void	Game::playerShoot(int playerId)

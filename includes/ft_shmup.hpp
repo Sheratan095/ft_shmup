@@ -9,10 +9,9 @@
 
 using namespace std;
 
-#define PLAYER_SYMBOL 'P'
-#define MINION_SYMBOL 'M'
-#define BOSS_SYMBOL 'B'
-#define ASTEROID_SYMBOL 'A'
+#define MINION_SYMBOL 'Minion'
+#define BOSS_SYMBOL 'Boss'
+#define ASTEROID_SYMBOL 'Asteroid'
 #define BULLET_SYMBOL '!'
 #define ENEMY_BULLET_SYMBOL '*'
 #define STAR_SYMBOL '.'

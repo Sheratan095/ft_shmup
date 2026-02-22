@@ -10,7 +10,7 @@ class Player : public AEntity
 
 	public:
 		// Main ctor: specify position, symbol and health
-		Player(int x, int y, int width, int height, int id) : AEntity(x, y, width, height, PLAYER_SYMBOL, PLAYER_HEALTH, PLAYER_COLOR_PAIR), _id(id)
+		Player(int x, int y, int width, int height, int id) : AEntity(x, y, width, height, "Player", PLAYER_HEALTH, PLAYER_COLOR_PAIR), _id(id)
 		{}
 
 		~Player()

@@ -8,7 +8,7 @@ class Boss : public AEnemy
 	public:
 		// Main ctor: specify position, symbol and health
 		Boss(int x, int y, int width, int height)
-			: AEnemy(x, y, width, height, BOSS_SYMBOL, BOSS_HEALTH, BOSS_COLOR_PAIR)
+			: AEnemy(x, y, width, height, "boss", BOSS_HEALTH, BOSS_COLOR_PAIR)
 		{}
 
 		~Boss()

@@ -38,7 +38,7 @@ int main() {
             game.showEntities(scr);
 			scr.refresh();
         }
-        if (frame_count % (CLOCKS_PER_SEC) == 0) // Update game logic every 10th of a second
+        if (frame_count % (CLOCKS_PER_SEC / 2) == 0)
             game.update();
 		if (frame_count % (CLOCKS_PER_SEC * 3) == 0) // Handle input every 10th of a second
 			game.addStar(); // Add new stars to the background every 3rd of a second

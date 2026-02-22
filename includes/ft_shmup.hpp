@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <ncurses.h>
+#include <string.h>
 #include <list>
 #include <unistd.h>
 

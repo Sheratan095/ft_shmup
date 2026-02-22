@@ -28,7 +28,7 @@ using namespace std;
 #define PLAYER_HEALTH 5
 #define MINION_HEALTH 2
 #define BOSS_HEALTH 3
-#define ASTEROID_HEALTH 2
+#define ASTEROID_HEALTH 1
 
 #define PLAYER_DAMAGE 1
 #define BOSS_DAMAGE 3

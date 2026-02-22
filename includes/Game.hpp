@@ -21,10 +21,12 @@ class Game
 		Game(int numPlayers, int playerStartY, int screenWidth, int screenHeight);
 		~Game();
 
+		void    stop() { _started = false; }
 		void	start();
 		void	update();
 		void    showEntities(Screen& screen) const;
 		void	cleanDeathEntities();
+		bool    isRunning() const { return _started; }
 
 		int		getPlayerHealth(int playerId) const;
 		int		getScore() const;

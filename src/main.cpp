@@ -5,7 +5,7 @@ void DrawHUD(Screen& scr, const Game& game, int startTime);
 
 void AddEnemies(Game& game, int score, int screenWidth, int screenHeight);
 
-void	switchInput(int ch, Game *game, bool *running);
+void	switchInput(int ch, Game *game);
 
 unsigned long long frame_count = 0;
 
@@ -14,23 +14,21 @@ int main() {
 	scr.init();
 	int marginPlayersLine = 5;
 
-		
     int h = scr.getHeight();
 	int w = scr.getWidth();
 
 	Game game(1, h - marginPlayersLine, w, h); // Start with 1 player, screen width, and player starting Y position
 
-	bool running = true;
     game.start();
     game.addMinion(); // Start with one enemy
-	while (running)
+	while (game.isRunning())
 	{
 
 		// Get current dimvoid AddEnemies(Game& game, int score, int screenWidth, int screenHeight)ensions
         w = scr.getWidth();
         h = scr.getHeight();
 
-        if (frame_count % (CLOCKS_PER_SEC) == 0) // Add enemies every half second
+        if (frame_count % (CLOCKS_PER_SEC * 10) == 0) 
             AddEnemies(game, game.getScore(), w, h);
 
         // Update every 60th of a second
@@ -44,7 +42,7 @@ int main() {
             game.update();
 
         frame_count++;
-		switchInput(getch(), &game, &running);
+		switchInput(getch(), &game);
 	}
 	return 0;
 }
@@ -60,6 +58,7 @@ void DrawHUD(Screen& scr, const Game& game, int startTime)
 	wattron(stdscr, COLOR_PAIR(UHD_COLOR_PAIR));
 
     mvhline(h - 4, 0, '-', w);  // top border of HUD
+	mvprintw(h - 3, 2, "|"); // left border of HUD
     mvprintw(h - 3, 2, "Score: %d", game.getScore());
     mvprintw(h - 3, w / 3, "Health: %d", playerHealth);
 	mvprintw(h - 3, (2 * w) / 3, "Time: %lds", (long)(scr.getCurrentTime() / CLOCKS_PER_SEC));
@@ -85,43 +84,46 @@ void AddEnemies(Game& game, int score, int screenWidth, int screenHeight)
     }
 }
 
-void	switchInput(int ch, Game *game, bool *running)
+void switchInput(int ch, Game *game)
 {
-	switch (ch)
-	{
-		case 'a':
-		case 'A':
-			game->playerMove(0, -1);
-			break;
 
-		case 'd':
-		case 'D':
-			game->playerMove(0, 1);
-			break;
+    switch (ch)
+    {
+        // Player 0
+        case 'a':
+        case 'A':
+            game->playerMove(0, -1);
+            break;
 
-		case 'w':
-		case 'W':
-			game->playerShoot(0);
-			break;
+        case 'd':
+        case 'D':
+            game->playerMove(0, 1);
+            break;
 
-		case KEY_LEFT:
-			game->playerMove(1, -1);
-			break;
+        case 'w':
+        case 'W':
+            game->playerShoot(0);
+            break;
 
-		case KEY_RIGHT:
-			game->playerMove(1, 1);
-			break;
+        // Player 1
+        case KEY_LEFT:
+            game->playerMove(1, -1);
+            break;
 
-		case KEY_UP:
-			game->playerShoot(1);
-			break;
+        case KEY_RIGHT:
+            game->playerMove(1, 1);
+            break;
+        case KEY_UP:
+            game->playerShoot(1);
+            break;
 
-		case 'q':
-		case 'Q':
-            *running = false;
-			break;
+        // Quit
+        case 'q':
+        case 'Q':
+            game->stop(); // Stop the game
+            break;
 
-		default:
-			break;
-	}
+        default:
+            break;
+    }
 }

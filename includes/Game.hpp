@@ -21,8 +21,6 @@ class Game
 		Game(int numPlayers, int playerStartY, int screenWidth, int screenHeight);
 		~Game();
 
-
-		void    updateStars();
 		void    stop();
 		void	start();
 		void	update();

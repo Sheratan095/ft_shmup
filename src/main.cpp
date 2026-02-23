@@ -2,7 +2,7 @@
 
 
 void DrawHUD(Screen& scr, Game& game, long startTime, int playerCount, int endless);
-bool storyMode(Game& game, int score, int playerCount);
+bool storyMode(Game& game, int playerCount);
 void AddEnemies(Game& game, int score);
 
 void	switchInput(int ch, Game *game, Screen& scr);
@@ -36,7 +36,7 @@ int main() {
 			if (endless == 1) // Only add enemies in endless mode
 				AddEnemies(game, game.getScore());
 			{
-				if (storyMode(game, game.getScore(), players) == false)
+				if (storyMode(game, players) == false)
 				{
 					game.stop(); // Stop the game if story mode returns false (game over)
 				}
@@ -52,12 +52,10 @@ int main() {
 		}
 		if (frame_count % (CLOCKS_PER_SEC * 5) == 0)
 			game.addAsteroid(); // Add new asteroids every 5 seconds
-		if (frame_count % (CLOCKS_PER_SEC / 2) == 0) // Handle input every 10th of a second
+		if (frame_count % (CLOCKS_PER_SEC / 3) == 0) // Handle input every 10th of a second
 			game.addStar(); // Add new stars to the background every 3rd of a second
-		if (frame_count % (CLOCKS_PER_SEC / 3) == 0)
+		if (frame_count % (CLOCKS_PER_SEC / 5) == 0)
 			game.update(); // Update game state every 10th of a second
-        if (frame_count % (CLOCKS_PER_SEC) == 0)
-            game.updateStars(); // Update stars every 60th of a second
 
 		frame_count++;
 		switchInput(getch(), &game, scr);
@@ -187,7 +185,7 @@ void switchInput(int ch, Game *game, Screen& scr)
 }
 
 // true when the game is still running, false when it's over
-bool storyMode(Game& game, int score, int playerCount)
+bool storyMode(Game& game, int playerCount)
 {
 	int maxWave = 3;
 	static int currentWave = 0;
